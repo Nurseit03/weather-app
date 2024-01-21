@@ -12,7 +12,7 @@
           <div>Текущая: {{ weatherData.main?.temp }}F&deg;</div>
           <div>Минимальная: {{ weatherData.main?.temp_min }}&deg;</div>
           <div>Максимальная: {{ weatherData.main?.temp_max }}&deg;</div>
-          <div>По ощущению: {{ weatherData.main?.temp }}&deg;</div>
+          <div>По ощущению: {{ weatherData.main?.feels_like }}&deg;</div>
         </q-item-section>
       </q-item>
       <q-separator />

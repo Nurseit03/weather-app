@@ -41,13 +41,6 @@ const getWeatherByCoordinates = (latitude: any, longitude: any) => {
     });
 };
 
-const convertToCelsius = (tempInFahrenheit: number | undefined) => {
-  if (tempInFahrenheit !== undefined) {
-    return Math.round((tempInFahrenheit - 32) / 1.8);
-  }
-  return '';
-};
-
 watch(userCoordinates, () => {
   if (userCoordinates) {
     getWeatherByCoordinates(
