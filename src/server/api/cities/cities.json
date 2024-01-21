@@ -1,0 +1,357 @@
+[
+  {
+    "label": "Астана",
+    "name_en": "Astana",
+    "id": 1,
+    "lng": 71.4389,
+    "lat": 51.1605
+  },
+  {
+    "label": "Амстердам",
+    "name_en": "Amsterdam",
+    "id": 2,
+    "lng": 4.9041,
+    "lat": 52.3676
+  },
+  {
+    "label": "Афины",
+    "name_en": "Athens",
+    "id": 3,
+    "lng": 23.7275,
+    "lat": 37.9838
+  },
+  {
+    "label": "Антверпен",
+    "name_en": "Antwerp",
+    "id": 4,
+    "lng": 4.4022,
+    "lat": 51.2194
+  },
+  {
+    "label": "Алжир",
+    "name_en": "Algiers",
+    "id": 5,
+    "lng": 3.3792,
+    "lat": 36.7528
+  },
+
+  {
+    "label": "Берлин",
+    "name_en": "Berlin",
+    "id": 6,
+    "lng": 13.405,
+    "lat": 52.52
+  },
+  {
+    "label": "Барселона",
+    "name_en": "Barcelona",
+    "id": 7,
+    "lng": 2.1734,
+    "lat": 41.3851
+  },
+  {
+    "label": "Бостон",
+    "name_en": "Boston",
+    "id": 8,
+    "lng": -71.0589,
+    "lat": 42.3601
+  },
+  {
+    "label": "Бейрут",
+    "name_en": "Beirut",
+    "id": 9,
+    "lng": 35.4955,
+    "lat": 33.8875
+  },
+  {
+    "label": "Бразилиа",
+    "name_en": "Brasilia",
+    "id": 10,
+    "lng": -47.9292,
+    "lat": -15.7801
+  },
+  {
+    "label": "Вена",
+    "name_en": "Vienna",
+    "id": 11,
+    "lng": 16.3738,
+    "lat": 48.2082
+  },
+  {
+    "label": "Варшава",
+    "name_en": "Warsaw",
+    "id": 12,
+    "lng": 21.0122,
+    "lat": 52.2297
+  },
+  {
+    "label": "Гавана",
+    "name_en": "Havana",
+    "id": 13,
+    "lng": -82.3666,
+    "lat": 23.1136
+  },
+  {
+    "label": "Гонконг",
+    "name_en": "Hong Kong",
+    "id": 14,
+    "lng": 114.1694,
+    "lat": 22.3193
+  },
+  {
+    "label": "Гамбург",
+    "name_en": "Hamburg",
+    "id": 15,
+    "lng": 9.9937,
+    "lat": 53.5511
+  },
+
+  {
+    "label": "Дублин",
+    "name_en": "Dublin",
+    "id": 16,
+    "lng": -6.2675,
+    "lat": 53.3441
+  },
+  {
+    "label": "Дакар",
+    "name_en": "Dakar",
+    "id": 17,
+    "lng": -17.366,
+    "lat": 14.6928
+  },
+  {
+    "label": "Дели",
+    "name_en": "Delhi",
+    "id": 18,
+    "lng": 77.1025,
+    "lat": 28.6139
+  },
+  {
+    "label": "Дамаск",
+    "name_en": "Damascus",
+    "id": 19,
+    "lng": 36.3315,
+    "lat": 33.5138
+  },
+  {
+    "label": "Джакарта",
+    "name_en": "Jakarta",
+    "id": 20,
+    "lng": 106.8456,
+    "lat": -6.2088
+  },
+  {
+    "label": "Екатеринбург",
+    "name_en": "Yekaterinburg",
+    "id": 21,
+    "lng": 60.612,
+    "lat": 56.838
+  },
+  {
+    "label": "Ереван",
+    "name_en": "Yerevan",
+    "id": 22,
+    "lng": 44.509,
+    "lat": 40.1792
+  },
+  {
+    "label": "Ерйиш-Мариам",
+    "name_en": "Yerisiam Mariam",
+    "id": 23,
+    "lng": 32.0364,
+    "lat": 26.3432
+  },
+  {
+    "label": "Елена",
+    "name_en": "Yelena",
+    "id": 24,
+    "lng": 33.3067,
+    "lat": 30.429
+  },
+  {
+    "label": "Еба",
+    "name_en": "Yeba",
+    "id": 25,
+    "lng": 34.3856,
+    "lat": 31.2156
+  },
+
+  {
+    "label": "Женева",
+    "name_en": "Geneva",
+    "id": 26,
+    "lng": 6.1432,
+    "lat": 46.2044
+  },
+  {
+    "label": "Жданов",
+    "name_en": "Zhdanov",
+    "id": 27,
+    "lng": 37.5081,
+    "lat": 55.0423
+  },
+  {
+    "label": "Житомир",
+    "name_en": "Zhytomyr",
+    "id": 28,
+    "lng": 28.6365,
+    "lat": 50.2547
+  },
+  {
+    "label": "Жодино",
+    "name_en": "Zhodino",
+    "id": 29,
+    "lng": 28.3136,
+    "lat": 54.0978
+  },
+  {
+    "label": "Железноводск",
+    "name_en": "Zheleznovodsk",
+    "id": 30,
+    "lng": 43.0339,
+    "lat": 44.1364
+  },
+  {
+    "label": "Загреб",
+    "name_en": "Zagreb",
+    "id": 31,
+    "lng": 15.9819,
+    "lat": 45.815
+  },
+  {
+    "label": "Запорожье",
+    "name_en": "Zaporizhzhia",
+    "id": 32,
+    "lng": 35.1396,
+    "lat": 47.8388
+  },
+  {
+    "label": "Замбия",
+    "name_en": "Zambia",
+    "id": 33,
+    "lng": 27.8493,
+    "lat": -13.1339
+  },
+  {
+    "label": "Зарафшан",
+    "name_en": "Zarafshan",
+    "id": 34,
+    "lng": 65.7588,
+    "lat": 41.5511
+  },
+  {
+    "label": "Зеолит",
+    "name_en": "Zeolite",
+    "id": 35,
+    "lng": -37.8136,
+    "lat": 144.9631
+  },
+
+  {
+    "label": "Зеленоградск",
+    "name_en": "Zelenogradsk",
+    "id": 36,
+    "lng": 20.4675,
+    "lat": 54.9593
+  },
+  {
+    "label": "Зимбабве",
+    "name_en": "Zimbabwe",
+    "id": 37,
+    "lng": 29.1549,
+    "lat": -19.0154
+  },
+  {
+    "label": "Златоуст",
+    "name_en": "Zlatoust",
+    "id": 38,
+    "lng": 59.6502,
+    "lat": 55.1714
+  },
+  {
+    "label": "Замлянка",
+    "name_en": "Zamlyanka",
+    "id": 39,
+    "lng": 38.7644,
+    "lat": 47.3191
+  },
+  {
+    "label": "Заозёрный",
+    "name_en": "Zaozyorny",
+    "id": 40,
+    "lng": 38.8733,
+    "lat": 55.9657
+  },
+  {
+    "label": "Ивано-Франковск",
+    "name_en": "Ivano-Frankivsk",
+    "id": 41,
+    "lng": 24.7097,
+    "lat": 48.9226
+  },
+  {
+    "label": "Игарка",
+    "name_en": "Igarka",
+    "id": 42,
+    "lng": 86.5806,
+    "lat": 67.4667
+  },
+  {
+    "label": "Израиль",
+    "name_en": "Israel",
+    "id": 43,
+    "lng": 35.2137,
+    "lat": 31.0461
+  },
+  {
+    "label": "Ижевск",
+    "name_en": "Izhevsk",
+    "id": 44,
+    "lng": 53.1952,
+    "lat": 56.8389
+  },
+  {
+    "label": "Индия",
+    "name_en": "India",
+    "id": 45,
+    "lng": 78.9629,
+    "lat": 20.5937
+  },
+
+  {
+    "label": "Индонезия",
+    "name_en": "Indonesia",
+    "id": 46,
+    "lng": 113.9213,
+    "lat": -0.7893
+  },
+  {
+    "label": "Ирак",
+    "name_en": "Iraq",
+    "id": 47,
+    "lng": 43.6793,
+    "lat": 33.2232
+  },
+  {
+    "label": "Иран",
+    "name_en": "Iran",
+    "id": 48,
+    "lng": 53.688,
+    "lat": 32.4279
+  },
+  {
+    "label": "Иркутск",
+    "name_en": "Irkutsk",
+    "id": 49,
+    "lng": 104.2807,
+    "lat": 52.2864
+  },
+  {
+    "label": "Иссык-куль",
+    "name_en": "Issikkul",
+    "id": 50,
+    "lng": 71.2682,
+    "lat": 54.909
+  }
+]
