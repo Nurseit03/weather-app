@@ -20,7 +20,7 @@
         </template>
       </q-select>
     </div>
-    <q-card v-show="weatherData.main" class="my-card">
+    <q-card v-if="weatherData.main" class="my-card">
       <q-card-section>
         <div class="col text-black text-center">
           <div class="text-h4 text-weight-light">Kyrgyzstan</div>
@@ -52,26 +52,36 @@
                     <div>По ощущению: {{ weatherData.main?.temp }}&deg;</div>
                   </q-item-section>
                 </q-item>
-                <q-separator/>
+                <q-separator />
                 <q-item clickable v-ripple v-show="weatherData.main?.humidity">
                   <q-item-section>Влажность</q-item-section>
                   <q-item-section>
                     <div>{{ weatherData.main?.humidity }} %</div>
                   </q-item-section>
                 </q-item>
-                <q-separator/>
+                <q-separator />
                 <q-item clickable v-ripple v-show="weatherData.main?.pressure">
                   <q-item-section>Давление</q-item-section>
                   <q-item-section>
                     <div>{{ weatherData.main?.pressure }} hPa</div>
                   </q-item-section>
                 </q-item>
-                <q-separator/>
+                <q-separator />
                 <q-item clickable v-ripple v-show="weatherData.wind">
                   <q-item-section>Ветер</q-item-section>
                   <q-item-section>
                     <div>Скорость: {{ weatherData.wind?.speed }} м/с</div>
                     <div>Направление: {{ weatherData.wind?.deg }}&deg;</div>
+                  </q-item-section>
+                </q-item>
+                <q-item clickable v-ripple v-show="weatherData.weather">
+                  <q-item-section>
+                    <img
+                      :src="`https://openweathermap.org/img/wn/${weatherData?.weather?.[0]?.icon}@2x.png`"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    {{ weatherData?.weather?.[0]?.main }}
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -80,7 +90,7 @@
         </div>
       </q-card-section>
     </q-card>
-    <div class="text-h6 text-weight-light">ИЛИ</div>
+    <div class="text-h6 text-weight-light" v-else>ИЛИ</div>
     <div class="col text-black text-center">
       <div class="text-h5 text-weight-light">Узнайте погоду в вашем городе</div>
       <q-separator size="1px" color="black" spaced />

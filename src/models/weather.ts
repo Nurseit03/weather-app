@@ -11,4 +11,12 @@ export interface IWeather {
     humidity: number;
     pressure: number;
   };
+  weather?: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
 }
