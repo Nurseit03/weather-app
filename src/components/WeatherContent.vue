@@ -19,7 +19,7 @@
         </template>
       </q-select>
     </div>
-    <template v-if="!weatherData">
+    <template v-if="weatherData">
       <q-card class="my-card">
         <q-card-section>
           <div class="col text-black text-center">
@@ -73,52 +73,46 @@
   </div>
 </template>
 
-<script>
-import { ref, reactive } from 'vue';
+<script setup lang="ts">
+import { ref, reactive, watch } from 'vue';
 
 const stringOptions = ['Bishkek', 'Naryn', 'Tokmok', 'Osh', 'Talas'];
 
-export default {
-  name: 'WeatherContent',
-  setup() {
-    const options = reactive(stringOptions);
+const model = ref(null);
+let options = reactive(stringOptions);
+let weatherData = reactive({});
+let userCoordinates = reactive({ longitude: null, latitude: null });
 
-    const weatherData = reactive(null);
-
-    const userCoordinates = reactive({ longitude: null, latitude: null });
-
-    const getUserLocation = () => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setUserCoordinates(
-          position?.coords?.longitude,
-          position?.coords?.latitude
-        );
-      });
-    };
-
-    const setUserCoordinates = (latitude, longitude) => {
-      userCoordinates.value.latitude = latitude;
-      userCoordinates.value.longitude = longitude;
-    };
-
-    return {
-      model: ref(null),
-      weatherData,
-      options,
-      getUserLocation,
-
-      filterFn(val, update) {
-        update(() => {
-          const needle = val.toLowerCase();
-          options.value = stringOptions.filter(
-            (v) => v.toLowerCase().indexOf(needle) > -1
-          );
-        });
-      },
-    };
-  },
+const getUserCoordinates = () => {
+  navigator.geolocation.getCurrentPosition((position) => {
+    setUserCoordinates(
+      position?.coords?.longitude,
+      position?.coords?.latitude
+    );
+  });
 };
+
+const setUserCoordinates = (latitude: any, longitude: any) => {
+  userCoordinates.latitude = latitude;
+  userCoordinates.longitude = longitude;
+};
+
+
+const filterFn = (val: any, update: any) => {
+  update(() => {
+    const needle = val.toLowerCase();
+    options = stringOptions.filter(
+      (v) => v.toLowerCase().indexOf(needle) > -1
+    );
+  });
+};
+
+watch(userCoordinates, () => {
+  console.log(userCoordinates);
+});
+
 </script>
+
 
 <style>
 .content {
