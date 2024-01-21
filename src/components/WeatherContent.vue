@@ -4,6 +4,7 @@
       <q-select
         filled
         v-model="model"
+        label="Выберите город"
         use-input
         hide-selected
         fill-input
@@ -26,7 +27,7 @@
           <q-separator size="1px" color="black" spaced />
           <div class="text-h6 text-weight-light">Bishkek</div>
           <div class="text-h1 text-weight-thin q-my-lg">
-            <span>{{ weatherData.main?.temp ?? 0 }}&deg;</span>
+            <span>{{ weatherData.main?.temp }}&deg;C</span>
           </div>
         </div>
         <div class="col text-center">
@@ -79,6 +80,7 @@
         </div>
       </q-card-section>
     </q-card>
+    <div class="text-h6 text-weight-light">ИЛИ</div>
     <div class="col text-black text-center">
       <div class="text-h5 text-weight-light">Узнайте погоду в вашем городе</div>
       <q-separator size="1px" color="black" spaced />
@@ -130,6 +132,13 @@ const filterFn = (val: any, update: any) => {
   });
 };
 
+const convertToCelsius = (tempInFahrenheit: number | undefined) => {
+  if (tempInFahrenheit !== undefined) {
+    return Math.round((tempInFahrenheit - 32) / 1.8);
+  }
+  return '';
+};
+
 watch(userCoordinates, () => {
   if (userCoordinates) {
     getWeatherByCoordinates(
@@ -140,7 +149,7 @@ watch(userCoordinates, () => {
 });
 </script>
 
-<style>
+<style scoped>
 .content {
   display: flex;
   flex-direction: column;
