@@ -19,7 +19,7 @@
         </template>
       </q-select>
     </div>
-    <template v-if="weatherData">
+    <template v-if="!weatherData">
       <q-card class="my-card">
         <q-card-section>
           <div class="col text-black text-center">
@@ -31,16 +31,18 @@
             </div>
           </div>
           <div class="col text-center">
-            <q-btn label="Детали">
-              <q-menu transition-show="flip-right" transition-hide="flip-left" anchor="bottom right" self="bottom left">
+            <q-btn label="Детали" style="border: none">
+              <q-menu
+                transition-show="flip-right"
+                transition-hide="flip-left"
+                anchor="bottom right"
+                self="bottom left"
+              >
                 <q-list>
                   <q-item clickable v-ripple>
                     <q-item-section>Температура</q-item-section>
                     <q-item-section>
                       <div>Текущая: 8&deg;</div>
-                      <!-- <div>Минимальная: 5&deg;</div>
-                      <div>Максимальная: 10&deg;</div>
-                      <div>Ощущаемая: 7&deg;</div> -->
                     </q-item-section>
                   </q-item>
                   <q-item clickable v-ripple>
@@ -72,20 +74,38 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 const stringOptions = ['Bishkek', 'Naryn', 'Tokmok', 'Osh', 'Talas'];
 
 export default {
-  name: 'WeatherCitySelect',
+  name: 'WeatherContent',
   setup() {
-    const options = ref(stringOptions);
-    const weatherData = true;
+    const options = reactive(stringOptions);
+
+    const weatherData = reactive(null);
+
+    const userCoordinates = reactive({ longitude: null, latitude: null });
+
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserCoordinates(
+          position?.coords?.longitude,
+          position?.coords?.latitude
+        );
+      });
+    };
+
+    const setUserCoordinates = (latitude, longitude) => {
+      userCoordinates.value.latitude = latitude;
+      userCoordinates.value.longitude = longitude;
+    };
 
     return {
       model: ref(null),
       weatherData,
       options,
+      getUserLocation,
 
       filterFn(val, update) {
         update(() => {
