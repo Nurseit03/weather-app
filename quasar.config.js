@@ -60,6 +60,10 @@ module.exports = configure(function (/* ctx */) {
         node: 'node20'
       },
 
+      env: {
+        WEATHER_API_KEY: '3ad3a611b34488342c1c35ae4aa57d30',
+      },
+
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
