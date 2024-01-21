@@ -9,8 +9,7 @@
         hide-selected
         fill-input
         input-debounce="0"
-        :options="options"
-        @filter="filterFn"
+        :options="citiesList.cities"
         style="width: 250px; padding-bottom: 32px"
       >
         <template v-slot:no-option>
@@ -106,13 +105,13 @@
 <script setup lang="ts">
 import { ref, reactive, watch, toRefs } from 'vue';
 import { IWeather } from '../models/weather';
-
-const stringOptions = ['Bishkek', 'Naryn', 'Tokmok', 'Osh', 'Talas'];
+import  getCities  from '../server/api/cities/cities';
 
 const model = ref(null);
-let options = reactive(stringOptions);
+const citiesList = getCities();
 let weatherData = reactive<IWeather>({});
 let userCoordinates = reactive({ latitude: null, longitude: null });
+
 
 const getUserCoordinates = () => {
   navigator.geolocation.getCurrentPosition((position) => {
@@ -133,13 +132,6 @@ const getWeatherByCoordinates = (latitude: any, longitude: any) => {
     .then((data) => {
       Object.assign(weatherData, toRefs(reactive(data)));
     });
-};
-
-const filterFn = (val: any, update: any) => {
-  update(() => {
-    const needle = val.toLowerCase();
-    options = stringOptions.filter((v) => v.toLowerCase().indexOf(needle) > -1);
-  });
 };
 
 const convertToCelsius = (tempInFahrenheit: number | undefined) => {
