@@ -19,4 +19,7 @@ export interface IWeather {
       icon: string;
     }
   ];
+  sys?:{
+    country: string;
+  }
 }

@@ -7,34 +7,36 @@
   >
     <q-list>
       <q-item clickable v-ripple v-show="weatherData.main">
-        <q-item-section>Температура</q-item-section>
+        <q-item-section>{{ $t('Temperature') }}</q-item-section>
         <q-item-section>
-          <div>Текущая: {{ weatherData.main?.temp }}F&deg;</div>
-          <div>Минимальная: {{ weatherData.main?.temp_min }}&deg;</div>
-          <div>Максимальная: {{ weatherData.main?.temp_max }}&deg;</div>
-          <div>По ощущению: {{ weatherData.main?.feels_like }}&deg;</div>
+          <div>{{ $t('Current') }}: {{ weatherData.main?.temp }}F&deg;</div>
+          <div>{{ $t('Minimal') }}: {{ weatherData.main?.temp_min }}&deg;</div>
+          <div>{{ $t('Maximal') }}: {{ weatherData.main?.temp_max }}&deg;</div>
+          <div>
+            {{ $t('Feels like') }}: {{ weatherData.main?.feels_like }}&deg;
+          </div>
         </q-item-section>
       </q-item>
       <q-separator />
       <q-item clickable v-ripple v-show="weatherData.main?.humidity">
-        <q-item-section>Влажность</q-item-section>
+        <q-item-section>{{ $t('Humidity') }}</q-item-section>
         <q-item-section>
           <div>{{ weatherData.main?.humidity }} %</div>
         </q-item-section>
       </q-item>
       <q-separator />
       <q-item clickable v-ripple v-show="weatherData.main?.pressure">
-        <q-item-section>Давление</q-item-section>
+        <q-item-section>{{ $t('Pressure') }}</q-item-section>
         <q-item-section>
           <div>{{ weatherData.main?.pressure }} hPa</div>
         </q-item-section>
       </q-item>
       <q-separator />
       <q-item clickable v-ripple v-show="weatherData.wind">
-        <q-item-section>Ветер</q-item-section>
+        <q-item-section>{{ $t('Wind') }}</q-item-section>
         <q-item-section>
-          <div>Скорость: {{ weatherData.wind?.speed }} м/с</div>
-          <div>Направление: {{ weatherData.wind?.deg }}&deg;</div>
+          <div>{{ $t('Speed') }}: {{ weatherData.wind?.speed }} м/с</div>
+          <div>{{ $t('Direction') }}: {{ weatherData.wind?.deg }}&deg;</div>
         </q-item-section>
       </q-item>
       <q-item clickable v-ripple v-show="weatherData.weather">
@@ -44,18 +46,20 @@
           />
         </q-item-section>
         <q-item-section>
-          {{ weatherData?.weather?.[0]?.main }}
+          {{ $t(weatherData.weather?.[0]?.main || 'Undefined') }}
         </q-item-section>
       </q-item>
     </q-list>
   </q-menu>
 </template>
 
-<script>
+<script lang="ts">
+import { IWeather } from '../models/weather';
+
 export default {
   props: {
     weatherData: {
-      type: Object,
+      type: Object as () => IWeather,
       required: true,
     },
   },

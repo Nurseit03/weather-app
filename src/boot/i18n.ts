@@ -16,10 +16,8 @@ declare module 'vue-i18n' {
   // define the datetime format schema
   export interface DefineDateTimeFormat {}
 
-  // define the number format schema
   export interface DefineNumberFormat {}
 }
-/* eslint-enable @typescript-eslint/no-empty-interface */
 
 export default boot(({ app }) => {
   const i18n = createI18n({
@@ -29,6 +27,5 @@ export default boot(({ app }) => {
     messages,
   });
 
-  // Set i18n instance on app
   app.use(i18n);
 });
