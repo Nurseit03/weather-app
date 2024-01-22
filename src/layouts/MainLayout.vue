@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title> Weather App </q-toolbar-title>
 
-        Тут будет смена темы и языка
+        <LocaleSwitcher />
       </q-toolbar>
     </q-header>
 
@@ -16,11 +16,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import LocaleSwitcher from '../components/ui/LocaleSwitcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {},
+  components: { LocaleSwitcher },
 
   setup() {
     const leftDrawerOpen = ref(false);
