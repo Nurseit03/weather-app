@@ -1,5 +1,5 @@
 <template>
-  <q-card v-if="weatherData.main" class="my-card">
+  <q-card class="my-card">
     <q-card-section>
       <div class="col text-black text-center">
         <div class="text-h4 text-weight-light">
@@ -22,13 +22,14 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import WeatherCardDetails from './WeatherCardDetails.vue';
+import { IWeather } from '../models/weather';
 
 export default {
   props: {
     weatherData: {
-      type: Object,
+      type: Object as () => IWeather,
       required: true,
     },
   },

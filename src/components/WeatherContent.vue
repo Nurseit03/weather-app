@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md content">
     <WeatherCitySelect :options="citiesList.cities" />
-    <WeatherCard :weatherData="weatherData" />
+    <WeatherCard v-if="weatherData.main" :weatherData="weatherData" />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
-    <WeatherByLocation :getUserCoordinates="getUserCoordinates"/>
+    <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
   </div>
 </template>
 
@@ -18,7 +18,11 @@ import WeatherByLocation from './WeatherByLocation.vue';
 const model = ref(null);
 const citiesList = getCities();
 let weatherData = reactive<IWeather>({});
-let userCoordinates = reactive({ latitude: null, longitude: null });
+
+let userCoordinates = reactive({
+  latitude: null as number | null,
+  longitude: null as number | null,
+});
 
 const getUserCoordinates = () => {
   navigator.geolocation.getCurrentPosition((position) => {
@@ -26,12 +30,15 @@ const getUserCoordinates = () => {
   });
 };
 
-const setUserCoordinates = (latitude: any, longitude: any) => {
+const setUserCoordinates = (latitude: number, longitude: number) => {
   userCoordinates.latitude = latitude;
   userCoordinates.longitude = longitude;
 };
 
-const getWeatherByCoordinates = (latitude: any, longitude: any) => {
+const getWeatherByCoordinates = (
+  latitude: number | null,
+  longitude: number | null
+) => {
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric`
   )

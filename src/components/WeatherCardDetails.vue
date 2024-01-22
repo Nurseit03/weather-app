@@ -46,18 +46,20 @@
           />
         </q-item-section>
         <q-item-section>
-          {{ $t(weatherData?.weather?.[0]?.main) }}
+          {{ $t(weatherData.weather?.[0]?.main || 'Undefined') }}
         </q-item-section>
       </q-item>
     </q-list>
   </q-menu>
 </template>
 
-<script>
+<script lang="ts">
+import { IWeather } from '../models/weather';
+
 export default {
   props: {
     weatherData: {
-      type: Object,
+      type: Object as () => IWeather,
       required: true,
     },
   },
