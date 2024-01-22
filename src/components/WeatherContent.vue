@@ -2,7 +2,7 @@
   <div class="q-pa-md content">
     <WeatherCitySelect :options="citiesList.cities" />
     <WeatherCard :weatherData="weatherData" />
-    <div class="text-h6 text-weight-light">ИЛИ</div>
+    <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates"/>
   </div>
 </template>
@@ -33,7 +33,7 @@ const setUserCoordinates = (latitude: any, longitude: any) => {
 
 const getWeatherByCoordinates = (latitude: any, longitude: any) => {
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric`
   )
     .then((response) => response.json())
     .then((data) => {
