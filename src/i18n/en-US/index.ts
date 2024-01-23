@@ -3,7 +3,7 @@ export default {
   'success': 'success',
   'No results': 'No results',
   'Weather App': 'Weather App',
-  'or': 'или',
+  'or': 'or',
   'Find out the weather in your city': 'Find out the weather in your city',
   'Specify my location': 'Specify my location',
   'Select city': 'Select city',

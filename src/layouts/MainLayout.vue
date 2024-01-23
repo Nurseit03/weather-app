@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="header">
       <q-toolbar>
-        <q-toolbar-title> Weather App </q-toolbar-title>
+        <q-toolbar-title> {{$t('Weather App')}} </q-toolbar-title>
 
         <LocaleSwitcher />
       </q-toolbar>
