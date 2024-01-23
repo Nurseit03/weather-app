@@ -15,7 +15,6 @@ import WeatherCitySelect from './WeatherCitySelect.vue';
 import WeatherCard from './WeatherCard.vue';
 import WeatherByLocation from './WeatherByLocation.vue';
 
-const model = ref(null);
 const citiesList = getCities();
 let weatherData = reactive<IWeather>({});
 
