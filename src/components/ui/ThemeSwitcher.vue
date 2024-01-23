@@ -2,7 +2,6 @@
   <q-btn
     @click="handleTheme"
     :icon="darkMode ? 'light_mode' : 'dark_mode'"
-    color="primary"
   />
 </template>
 

@@ -3,9 +3,13 @@
     <q-card-section>
       <div class="col text-black text-center">
         <div class="text-h4 text-weight-light">
-          {{ $t('Country') + ':'}}
+          {{ $t('Country') + ':' }}
         </div>
-        <q-separator size="1px" color="black" spaced />
+        <q-separator
+          size="1px"
+          :color="$q.dark.isActive ? 'white' : 'black'"
+          spaced
+        />
         <div class="text-h6 text-weight-light">
           {{ $t('City') + ':' }}
         </div>
@@ -38,3 +42,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.my-card {
+  width: 100%;
+}
+</style>

@@ -7,7 +7,7 @@
       emit-value
       map-options
       options-dense
-      :style="{ 'min-width': '50px', 'border-radius': '15px', 'background-color': $q.dark.isActive ? '#121212' : 'aliceblue', 'color': $q.dark.isActive ? 'white' : 'black', 'padding': '2.5px 10px' }"
+      dark
     />
   </template>
   
