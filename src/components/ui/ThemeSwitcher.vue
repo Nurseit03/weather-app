@@ -15,8 +15,8 @@ export default {
   methods: {
     handleTheme() {
       const $q = this.$q;
-      $q.dark.toggle();
       this.darkMode = $q.dark.isActive;
+      $q.dark.toggle();
     },
   },
 };
