@@ -5,6 +5,7 @@
         <q-toolbar-title> {{$t('Weather App')}} </q-toolbar-title>
 
         <LocaleSwitcher />
+        <ThemeSwitcher />
       </q-toolbar>
     </q-header>
 
@@ -17,15 +18,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import LocaleSwitcher from '../components/ui/LocaleSwitcher.vue';
+import ThemeSwitcher from '../components/ui/ThemeSwitcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: { LocaleSwitcher },
+  components: { LocaleSwitcher, ThemeSwitcher },
 
   setup() {
     const leftDrawerOpen = ref(false);
-
+    
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
