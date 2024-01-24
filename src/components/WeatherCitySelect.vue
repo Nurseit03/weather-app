@@ -10,9 +10,7 @@
       input-debounce="0"
       :options="filteredOptions"
       @filter="filterFn"
-      @input-value="setModel"
       style="width: 250px"
-      @input="emitSelectedObject"
     >
       <template v-slot:no-option>
         <q-item>
@@ -60,22 +58,11 @@ export default {
       })
     }
 
-    const setModel = (val) => {
-      model.value = val;
-    }
-
-    const emitSelectedObject = () => {
-      console.log('Emit emit emit', model.value);
-      this.$emit('selectedCity', model.value);
-    }
-
     return {
       model,
       filteredOptions,
       filterFn,
-      setModel,
-      emitSelectedObject,
-    }
+      }
   },
 }
 </script>
