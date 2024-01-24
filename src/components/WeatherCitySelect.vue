@@ -10,6 +10,7 @@
       input-debounce="0"
       :options="filteredOptions"
       @filter="filterFn"
+      @update:model-value="emitSelectedCity"
       style="width: 250px"
     >
       <template v-slot:no-option>
@@ -24,16 +25,16 @@
 </template>
 
 <script>
-import { ref, watch} from 'vue'
+import { ref, watch } from 'vue';
 
 export default {
   props: {
     options: {
       type: Array,
       required: true,
-    }
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const model = ref(null);
     const filteredOptions = ref(props.options);
 
@@ -42,27 +43,34 @@ export default {
       (newOptions) => {
         filteredOptions.value = newOptions;
       }
-    )
+    );
 
     watch(
       () => model.value,
       (newValue) => {
         console.log('Выбранный объект:', newValue);
       }
-    )
+    );
+
+    const emitSelectedCity = (val) => {
+      emit('onSelect', val);
+    };
 
     const filterFn = (val, update, abort) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        filteredOptions.value = props.options.filter(v => v.label.toLocaleLowerCase().indexOf(needle) > -1);
-      })
-    }
+        filteredOptions.value = props.options.filter(
+          (v) => v.label.toLocaleLowerCase().indexOf(needle) > -1
+        );
+      });
+    };
 
     return {
       model,
+      emitSelectedCity,
       filteredOptions,
       filterFn,
-      }
+    };
   },
-}
+};
 </script>

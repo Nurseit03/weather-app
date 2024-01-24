@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherCitySelect :options="citiesList.cities" />
+    <WeatherCitySelect
+      :options="citiesList.cities"
+      @onSelect="handleSelectCity"
+    />
     <WeatherCard v-if="weatherData.main" :weatherData="weatherData" />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
@@ -45,6 +48,10 @@ const getWeatherByCoordinates = (
     .then((data) => {
       Object.assign(weatherData, toRefs(reactive(data)));
     });
+};
+
+const handleSelectCity = (selectedCity: any) => {
+  getWeatherByCoordinates(selectedCity.lat, selectedCity.lng);
 };
 
 watch(userCoordinates, () => {
