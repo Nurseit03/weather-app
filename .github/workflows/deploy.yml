@@ -1,33 +1,45 @@
-name: Build & Deploy
+name: Build and Deploy to GitHub Pages
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '10.x'
-      - name: Cache
-        uses: actions/cache@v1
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install q
+        run: npm i -g @quasar/cli
+
+      - name: Build project
+        run: |
+          # Build project
+          quasar build
+
+          # Show files in the current directory
+          ls build
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install
-        run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          BASE_BRANCH: main
-          BRANCH: gh-pages
-          FOLDER: dist/spa
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./build
+          force_orphan: true
+          user_name: 'github-ci[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Publish to gh-pages'
+
+
