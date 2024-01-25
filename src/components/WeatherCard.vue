@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="col text-black text-center">
         <div class="text-h4 text-weight-light">
-          {{ $t('Country') + ':' + cityData?.country}}
+          {{ $t('Country') + ':' + (cityData?.country ?? '') }}
         </div>
         <q-separator
           size="1px"
@@ -11,16 +11,14 @@
           spaced
         />
         <div class="text-h6 text-weight-light">
-          {{ $t('City') + ':' + cityData?.label}}
+          {{ $t('City') + ':' + (cityData?.label ?? '') }}
         </div>
         <div class="text-h1 text-weight-thin q-my-lg">
           <span>{{ weatherData.main?.temp }}&deg;C</span>
         </div>
       </div>
       <div class="col text-center">
-        <q-btn :label="$t('Details')">
-          <WeatherCardDetails :weatherData="weatherData" />
-        </q-btn>
+        <WeatherCardDetails :weatherData="weatherData" />
       </div>
     </q-card-section>
   </q-card>
@@ -32,7 +30,7 @@ import { IWeather } from '../models/weather';
 import { ICity } from 'src/models/city';
 
 export default {
-  name: "WeatherCard",
+  name: 'WeatherCard',
   props: {
     weatherData: {
       type: Object as () => IWeather,
@@ -41,7 +39,7 @@ export default {
     cityData: {
       type: Object as () => ICity,
       required: true,
-    }
+    },
   },
   components: {
     WeatherCardDetails,

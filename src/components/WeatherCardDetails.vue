@@ -1,9 +1,16 @@
 <template>
-  <q-menu
+  <q-btn
+    :label="$t('Details')"
+    @click="togglePopup"
+    style="margin-bottom: 10px"
+    :icon="isPopupOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+  />
+  <q-popup
     transition-show="flip-right"
     transition-hide="flip-left"
     anchor="bottom right"
     self="bottom left"
+    v-show="!!isPopupOpen"
   >
     <q-list>
       <q-item clickable v-ripple v-show="weatherData.main">
@@ -50,18 +57,28 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </q-menu>
+  </q-popup>
 </template>
 
 <script lang="ts">
 import { IWeather } from '../models/weather';
 
 export default {
-  name: "WeatherCardDetails",
+  name: 'WeatherCardDetails',
   props: {
     weatherData: {
       type: Object as () => IWeather,
       required: true,
+    },
+  },
+  data() {
+    return {
+      isPopupOpen: false,
+    };
+  },
+  methods: {
+    togglePopup() {
+      this.isPopupOpen = !this.isPopupOpen;
     },
   },
 };
