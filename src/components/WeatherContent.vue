@@ -4,22 +4,31 @@
       :options="citiesList.cities"
       @onSelect="handleSelectCity"
     />
-    <WeatherCard v-if="weatherData.main" :weatherData="weatherData" />
+    <WeatherCard v-if="weatherData.main" :weatherData="weatherData" :cityData="cityData" />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, toRefs } from 'vue';
+import { reactive, watch, toRefs } from 'vue';
 import { IWeather } from '../models/weather';
 import getCities from '../server/api/cities/cities';
 import WeatherCitySelect from './WeatherCitySelect.vue';
 import WeatherCard from './WeatherCard.vue';
 import WeatherByLocation from './WeatherByLocation.vue';
+import { ICity } from 'src/models/city';
 
 const citiesList = getCities();
 let weatherData = reactive<IWeather>({});
+let cityData = reactive<ICity>({
+  id: null,
+  value: null,
+  label: null,
+  lat: null,
+  lng: null,
+  country: null
+});
 
 let userCoordinates = reactive({
   latitude: null as number | null,
@@ -50,7 +59,8 @@ const getWeatherByCoordinates = (
     });
 };
 
-const handleSelectCity = (selectedCity: any) => {
+const handleSelectCity = (selectedCity: ICity) => {
+  cityData = selectedCity;
   getWeatherByCoordinates(selectedCity.lat, selectedCity.lng);
 };
 

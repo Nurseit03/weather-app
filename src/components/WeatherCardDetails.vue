@@ -57,6 +57,7 @@
 import { IWeather } from '../models/weather';
 
 export default {
+  name: "WeatherCardDetails",
   props: {
     weatherData: {
       type: Object as () => IWeather,

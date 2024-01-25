@@ -28,6 +28,7 @@
 import { ref, watch } from 'vue';
 
 export default {
+  name: "WeatherCitySelect",
   props: {
     options: {
       type: Array,
@@ -42,13 +43,6 @@ export default {
       () => props.options,
       (newOptions) => {
         filteredOptions.value = newOptions;
-      }
-    );
-
-    watch(
-      () => model.value,
-      (newValue) => {
-        console.log('Выбранный объект:', newValue);
       }
     );
 

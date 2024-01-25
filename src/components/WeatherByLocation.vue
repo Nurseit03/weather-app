@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  name: "WeatherByLocation",
   props: {
     getUserCoordinates: {
       type: Function,
