@@ -30,7 +30,7 @@ jobs:
           quasar build
 
           # Show files in the current directory
-          ls build
+          ls
 
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v3
