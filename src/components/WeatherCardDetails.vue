@@ -16,11 +16,11 @@
       <q-item clickable v-ripple v-show="weatherData.main">
         <q-item-section>{{ $t('Temperature') }}</q-item-section>
         <q-item-section>
-          <div>{{ $t('Current') }}: {{ weatherData.main?.temp }}F&deg;</div>
-          <div>{{ $t('Minimal') }}: {{ weatherData.main?.temp_min }}&deg;</div>
-          <div>{{ $t('Maximal') }}: {{ weatherData.main?.temp_max }}&deg;</div>
+          <div>{{ $t('Current') }}: {{ displayTemperature(weatherData.main?.temp) }}</div>
+          <div>{{ $t('Minimal') }}: {{ displayTemperature(weatherData.main?.temp_min) }}</div>
+          <div>{{ $t('Maximal') }}: {{ displayTemperature(weatherData.main?.temp_max) }}</div>
           <div>
-            {{ $t('Feels like') }}: {{ weatherData.main?.feels_like }}&deg;
+            {{ $t('Feels like') }}: {{ displayTemperature(weatherData.main?.feels_like) }}
           </div>
         </q-item-section>
       </q-item>
@@ -43,7 +43,7 @@
         <q-item-section>{{ $t('Wind') }}</q-item-section>
         <q-item-section>
           <div>{{ $t('Speed') }}: {{ weatherData.wind?.speed }} м/с</div>
-          <div>{{ $t('Direction') }}: {{ weatherData.wind?.deg }}&deg;</div>
+          <div>{{ $t('Direction') }}: {{ displayTemperature(weatherData.wind?.deg) }}</div>
         </q-item-section>
       </q-item>
       <q-item clickable v-ripple v-show="weatherData.weather">
@@ -61,6 +61,7 @@
 </template>
 
 <script lang="ts">
+import useConvert from '@/composables/useConvert';
 import { IWeather } from '@/models/weather';
 
 export default {
@@ -68,6 +69,10 @@ export default {
   props: {
     weatherData: {
       type: Object as () => IWeather,
+      required: true,
+    },
+    isCelsius: {
+      type: Boolean,
       required: true,
     },
   },
@@ -79,6 +84,10 @@ export default {
   methods: {
     togglePopup() {
       this.isPopupOpen = !this.isPopupOpen;
+    },
+    displayTemperature(temperature: number | undefined) {
+      const unit = this.isCelsius ? 'celsius' : 'fahrenheit';
+      return useConvert().convertTemperature(temperature ?? 0, unit);
     },
   },
 };
