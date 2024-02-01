@@ -13,6 +13,10 @@ const path = require('path');
 
 module.exports = configure(function (/* ctx */) {
   return {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+
     eslint: {
       // fix: true,
       // include: [],
@@ -49,6 +53,12 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
+      extendViteConf(viteConf) {
+        Object.assign(viteConf.resolve.alias, {
+          '@': path.resolve(__dirname, './src'),
+        });
+      },
+      
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node20',

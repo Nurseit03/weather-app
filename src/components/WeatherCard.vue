@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts">
-import WeatherCardDetails from './WeatherCardDetails.vue';
-import { IWeather } from '../models/weather';
-import { ICity } from 'src/models/city';
+import WeatherCardDetails from '@/components/WeatherCardDetails.vue';
+import { IWeather } from '@/models/weather';
+import { ICity } from '@/models/city';
 
 export default {
   name: 'WeatherCard',

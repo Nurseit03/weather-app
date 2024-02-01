@@ -12,12 +12,12 @@
 
 <script setup lang="ts">
 import { reactive, watch, toRefs } from 'vue';
-import { IWeather } from '../models/weather';
-import getCities from '../server/api/cities/cities';
-import WeatherCitySelect from './WeatherCitySelect.vue';
-import WeatherCard from './WeatherCard.vue';
-import WeatherByLocation from './WeatherByLocation.vue';
-import { ICity } from 'src/models/city';
+import getCities from '@/server/api/cities/cities';
+import WeatherCitySelect from '@/components/WeatherCitySelect.vue';
+import WeatherCard from '@/components/WeatherCard.vue';
+import WeatherByLocation from '@/components/WeatherByLocation.vue';
+import { IWeather } from '@/models/weather';
+import { ICity } from '@/models/city';
 
 const citiesList = getCities();
 let weatherData = reactive<IWeather>({});

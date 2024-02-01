@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { IWeather } from '../models/weather';
+import { IWeather } from '@/models/weather';
 
 export default {
   name: 'WeatherCardDetails',
