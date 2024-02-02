@@ -43,13 +43,14 @@
         <q-item-section>{{ $t('Wind') }}</q-item-section>
         <q-item-section>
           <div>{{ $t('Speed') }}: {{ weatherData.wind?.speed }} м/с</div>
-          <div>{{ $t('Direction') }}: {{ displayTemperature(weatherData.wind?.deg) }}</div>
+          <div>{{ $t('Direction') }}: {{ weatherData.wind?.deg }}&deg;</div>
         </q-item-section>
       </q-item>
       <q-item clickable v-ripple v-show="weatherData.weather">
         <q-item-section>
           <img
             :src="`https://openweathermap.org/img/wn/${weatherData?.weather?.[0]?.icon}@2x.png`"
+            style="object-fit: contain; width: 100%; height: 100%;"
           />
         </q-item-section>
         <q-item-section>

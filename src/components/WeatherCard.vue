@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card">
-    <q-card-section>
+    <q-card-section class="col text-center">
       <div class="col text-black text-center">
         <div class="text-h4 text-weight-light">
           {{ $t('Country') + ':' + (cityData?.country ?? '') }}
@@ -63,7 +63,7 @@ export default {
 
 <style scoped>
 .my-card {
-  width: 100%;
+  width: 100vw;
   @media (min-width: 768px) {
     width: 420px;
   }
