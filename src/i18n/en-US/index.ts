@@ -21,9 +21,9 @@ export default {
   'Pressure': 'Pressure',
   'Speed': 'Speed',
   'Direction': 'Direction',
-  'Current': 'Cur.',
-  'Minimal': 'Min.',
-  'Maximal': 'Max.',
+  'Current': 'Current',
+  'Minimal': 'Minimal',
+  'Maximal': 'Maximal',
   'Feels like': 'Feels like',
   'Toggle unit': 'Toggle unit'
 };

@@ -21,10 +21,10 @@ export default {
     'Pressure': 'Давление',
     'Speed': 'Скорость',
     'Direction': 'Направление',
-    'Current': 'Тек.',
-    'Minimal': 'Мин.',
-    'Maximal': 'Макс.',
-    'Feels like': 'По ощущ.',
+    'Current': 'Текущая',
+    'Minimal': 'Минимальная',
+    'Maximal': 'Максимальная',
+    'Feels like': 'По ощущению',
     'Toggle unit': 'Переключить измерение'
   };
   
