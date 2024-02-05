@@ -20,7 +20,10 @@
       <div class="col text-center">
         <WeatherCardDetails :weatherData="weatherData" :isCelsius="isCelsius" />
       </div>
-      <q-toggle v-model="isCelsius" :label="$t('Toggle unit')" />
+      <q-tabs v-model="activeTab" dense narrow-indicator class="text-center">
+        <q-tab name="celsius" label="Celsius" />
+        <q-tab name="fahrenheit" label="Fahrenheit" />
+      </q-tabs>
     </q-card-section>
   </q-card>
 </template>
@@ -35,7 +38,7 @@ export default {
   name: 'WeatherCard',
   data() {
     return {
-      isCelsius: true,
+      activeTab: 'celsius',
     };
   },
   props: {
@@ -52,6 +55,9 @@ export default {
     WeatherCardDetails,
   },
   computed: {
+    isCelsius(): boolean {
+      return this.activeTab === 'celsius';
+    },
     currentTemperature(): string {
       const temperature = this.weatherData.main?.temp ?? 0;
       const unit = this.isCelsius ? 'celsius' : 'fahrenheit';
