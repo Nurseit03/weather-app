@@ -25,5 +25,7 @@ export default {
   'Minimal': 'Minimal',
   'Maximal': 'Maximal',
   'Feels like': 'Feels like',
-  'Toggle unit': 'Toggle unit'
+  'Toggle unit': 'Toggle unit',
+  'Fahrenheit': 'Fahrenheit',
+  'Celsius': 'Celsius'
 };

@@ -21,8 +21,8 @@
         <WeatherCardDetails :weatherData="weatherData" :isCelsius="isCelsius" />
       </div>
       <q-tabs v-model="activeTab" dense narrow-indicator class="text-center">
-        <q-tab name="celsius" label="Celsius" />
-        <q-tab name="fahrenheit" label="Fahrenheit" />
+        <q-tab name="celsius" :label="$t('Celsius')" />
+        <q-tab name="fahrenheit" :label="$t('Fahrenheit')" />
       </q-tabs>
     </q-card-section>
   </q-card>
