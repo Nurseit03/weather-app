@@ -18,9 +18,9 @@
         </div>
       </div>
       <div class="col text-center">
-        <WeatherCardDetails :weatherData="weatherData" :isCelsius="isCelsius" />
+        <WeatherCardDetails :weatherData="weatherData" :tempUnitTab="tempUnitTab" />
       </div>
-      <q-tabs v-model="activeTab" dense narrow-indicator class="text-center">
+      <q-tabs v-model="tempUnitTab" dense narrow-indicator class="text-center">
         <q-tab name="celsius" :label="$t('Celsius')" />
         <q-tab name="fahrenheit" :label="$t('Fahrenheit')" />
       </q-tabs>
@@ -31,14 +31,14 @@
 <script lang="ts">
 import useConvert from '@/composables/useConvert';
 import WeatherCardDetails from '@/components/WeatherCardDetails.vue';
-import { IWeather } from '@/models/weather';
+import { IWeather, TemperatureUnit } from '@/models/weather';
 import { ICity } from '@/models/city';
 
 export default {
   name: 'WeatherCard',
   data() {
     return {
-      activeTab: 'celsius',
+      tempUnitTab: 'celsius' as TemperatureUnit,
     };
   },
   props: {
@@ -55,13 +55,9 @@ export default {
     WeatherCardDetails,
   },
   computed: {
-    isCelsius(): boolean {
-      return this.activeTab === 'celsius';
-    },
     currentTemperature(): string {
       const temperature = this.weatherData.main?.temp ?? 0;
-      const unit = this.isCelsius ? 'celsius' : 'fahrenheit';
-      return useConvert().convertTemperature(temperature, unit);
+      return useConvert().convertTemperature(temperature, this.tempUnitTab);
     },
   },
 };

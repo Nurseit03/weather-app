@@ -16,6 +16,7 @@ export default {
   'Undefined': 'Undefined',
   'Change language': 'Change language',
   'Temperature': 'Temperature',
+  'Clear' : 'Clear',
   'Wind': 'Wind',
   'Humidity': 'Humidity',
   'Pressure': 'Pressure',

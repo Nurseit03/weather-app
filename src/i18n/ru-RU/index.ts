@@ -16,6 +16,7 @@ export default {
     'Undefined': 'Не найдено',
     'Change language': 'Сменить язык',
     'Temperature': 'Температура',
+    'Clear': 'Ясно',
     'Wind': 'Ветер',
     'Humidity': 'Влажность',
     'Pressure': 'Давление',

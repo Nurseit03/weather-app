@@ -63,7 +63,8 @@
 
 <script lang="ts">
 import useConvert from '@/composables/useConvert';
-import { IWeather } from '@/models/weather';
+import { IWeather, TemperatureUnit } from '@/models/weather';
+import { PropType } from 'vue';
 
 export default {
   name: 'WeatherCardDetails',
@@ -72,8 +73,8 @@ export default {
       type: Object as () => IWeather,
       required: true,
     },
-    isCelsius: {
-      type: Boolean,
+    tempUnitTab: {
+      type: String as PropType<TemperatureUnit>,
       required: true,
     },
   },
@@ -87,7 +88,7 @@ export default {
       this.isPopupOpen = !this.isPopupOpen;
     },
     displayTemperature(temperature: number | undefined) {
-      const unit = this.isCelsius ? 'celsius' : 'fahrenheit';
+      const unit = this.tempUnitTab ? 'celsius' : 'fahrenheit';
       return useConvert().convertTemperature(temperature ?? 0, unit);
     },
   },

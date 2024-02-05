@@ -23,3 +23,5 @@ export interface IWeather {
     country: string;
   }
 }
+
+export type TemperatureUnit = 'celsius' | 'fahrenheit';
