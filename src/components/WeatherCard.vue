@@ -1,7 +1,7 @@
 <template>
   <q-card class="my-card">
     <q-card-section class="col text-center">
-      <div class="col text-black text-center">
+      <div class="col text-center">
         <div class="text-h4 text-weight-light">
           {{ $t('Country') + ':' + (cityData?.country ?? '') }}
         </div>
