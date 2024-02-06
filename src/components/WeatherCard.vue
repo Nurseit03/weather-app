@@ -18,12 +18,15 @@
         </div>
       </div>
       <div class="col text-center">
-        <WeatherCardDetails :weatherData="weatherData" :tempUnitTab="tempUnitTab" />
+        <WeatherCardDetails
+          :weatherData="weatherData"
+          :tempUnitTab="tempUnitTab"
+        />
       </div>
-      <q-tabs v-model="tempUnitTab" dense narrow-indicator class="text-center">
-        <q-tab name="celsius" :label="$t('Celsius')" />
-        <q-tab name="fahrenheit" :label="$t('Fahrenheit')" />
-      </q-tabs>
+      <WeatherTempUnit
+        v-model:tempUnitTab="tempUnitTab"
+        @tempUnitTabChanged="handleTempUnitChange"
+      />
     </q-card-section>
   </q-card>
 </template>
@@ -31,6 +34,7 @@
 <script lang="ts">
 import useConvert from '@/composables/useConvert';
 import WeatherCardDetails from '@/components/WeatherCardDetails.vue';
+import WeatherTempUnit from '@/components/WeatherTempUnit.vue';
 import { IWeather, TemperatureUnit } from '@/models/weather';
 import { ICity } from '@/models/city';
 
@@ -53,6 +57,12 @@ export default {
   },
   components: {
     WeatherCardDetails,
+    WeatherTempUnit,
+  },
+  methods: {
+    handleTempUnitChange(newValue: TemperatureUnit) {
+      this.tempUnitTab = newValue;
+    },
   },
   computed: {
     currentTemperature(): string {
