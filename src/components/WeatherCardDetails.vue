@@ -88,8 +88,7 @@ export default {
       this.isPopupOpen = !this.isPopupOpen;
     },
     displayTemperature(temperature: number | undefined) {
-      const unit = this.tempUnitTab ? 'celsius' : 'fahrenheit';
-      return useConvert().convertTemperature(temperature ?? 0, unit);
+      return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab);
     },
   },
 };
