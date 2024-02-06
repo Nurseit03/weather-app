@@ -19,8 +19,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import LocaleSwitcher from '../components/ui/LocaleSwitcher.vue';
-import ThemeSwitcher from '../components/ui/ThemeSwitcher.vue';
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher.vue';
+import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',
