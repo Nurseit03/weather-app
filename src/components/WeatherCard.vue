@@ -3,7 +3,7 @@
     <q-card-section class="col text-center">
       <div class="col text-center">
         <div class="text-h4 text-weight-light">
-          {{ $t('Country') + ':' + (cityData?.country ?? '') }}
+          {{ $t('Country') + ':' + (cityData?.country ?? $t('not found')) }}
         </div>
         <q-separator
           size="1px"
@@ -11,7 +11,7 @@
           spaced
         />
         <div class="text-h6 text-weight-light">
-          {{ $t('City') + ':' + (cityData?.label ?? '') }}
+          {{ $t('City') + ':' + (cityData?.label ?? $t('not found')) }}
         </div>
         <div class="text-h1 text-weight-thin q-my-lg">
           <span>{{ currentTemperature }} </span>

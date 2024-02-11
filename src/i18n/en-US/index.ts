@@ -28,5 +28,6 @@ export default {
   'Feels like': 'Feels like',
   'Toggle unit': 'Toggle unit',
   'Fahrenheit': 'Fahrenheit',
-  'Celsius': 'Celsius'
+  'Celsius': 'Celsius',
+  'not found': 'not found'
 };

@@ -28,6 +28,7 @@ export default {
     'Feels like': 'По ощущению',
     'Toggle unit': 'Переключить измерение температуры',
     'Fahrenheit': 'Фаренгейт',
-    'Celsius': 'Цельсия'
+    'Celsius': 'Цельсия',
+    'not found': 'не найдено'
   };
   
