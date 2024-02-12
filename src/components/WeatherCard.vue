@@ -67,7 +67,7 @@ export default {
   computed: {
     currentTemperature(): string {
       const temperature = this.weatherData.main?.temp ?? 0;
-      return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab, 'fahrenheit');
+      return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab, 'celsius');
     },
   },
 };

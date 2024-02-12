@@ -13,7 +13,7 @@ export default function useConvert() {
       ? (temperature * 9) / 5 + 32
       : 0;
     return `${convertedTemperature.toFixed(2)}${
-      unit === 'celsius' ? '°C' : '°F'
+      unit === 'celsius' ? '°C' : unit === 'fahrenheit' ? '°F' : '°'
     }`;
   };
 
