@@ -49,7 +49,7 @@
       <q-item clickable v-ripple v-show="weatherData.weather">
         <q-item-section>
           <img
-            :src="`https://openweathermap.org/img/wn/${weatherData?.weather?.[0]?.icon}@2x.png`"
+            :src="weatherIconUrl"
             style="object-fit: contain; width: 100%; height: 100%;"
           />
         </q-item-section>
@@ -89,6 +89,11 @@ export default {
     },
     displayTemperature(temperature: number | undefined) {
       return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab, 'celsius');
+    },
+  },
+  computed: {
+    weatherIconUrl(): string {
+      return `https://openweathermap.org/img/wn/${this.weatherData?.weather?.[0]?.icon}@2x.png`;
     },
   },
 };
