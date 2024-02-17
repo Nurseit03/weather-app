@@ -30,5 +30,6 @@ export default {
   'Fahrenheit': 'Fahrenheit',
   'Celsius': 'Celsius',
   'not found': 'not found',
-  'Weather in your city': 'Weather in your city'
+  'Weather in your city': 'Weather in your city',
+  'Click to find out the weather in your city': 'Click to find out the weather in your city'
 };

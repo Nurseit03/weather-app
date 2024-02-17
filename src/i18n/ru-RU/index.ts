@@ -30,6 +30,7 @@ export default {
     'Fahrenheit': 'Фаренгейт',
     'Celsius': 'Цельсия',
     'not found': 'не найдено',
-    'Weather in your city': 'Погода в вашем городе'
+    'Weather in your city': 'Погода в вашем городе',
+    'Click to find out the weather in your city': 'Нажмите чтобы узнать погоду в вашем городе'
   };
   
