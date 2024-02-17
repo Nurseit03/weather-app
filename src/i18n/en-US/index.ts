@@ -29,5 +29,6 @@ export default {
   'Toggle unit': 'Toggle unit',
   'Fahrenheit': 'Fahrenheit',
   'Celsius': 'Celsius',
-  'not found': 'not found'
+  'not found': 'not found',
+  'Weather in your city': 'Weather in your city'
 };

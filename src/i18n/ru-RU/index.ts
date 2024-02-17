@@ -29,6 +29,7 @@ export default {
     'Toggle unit': 'Переключить измерение температуры',
     'Fahrenheit': 'Фаренгейт',
     'Celsius': 'Цельсия',
-    'not found': 'не найдено'
+    'not found': 'не найдено',
+    'Weather in your city': 'Погода в вашем городе'
   };
   

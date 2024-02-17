@@ -1,7 +1,7 @@
 <template>
   <q-card class="my-card">
     <q-card-section class="col text-center">
-      <div class="col text-center">
+      <div v-if="cityData.country && cityData.label" class="col text-center">
         <div class="text-h4 text-weight-light">
           {{ $t('Country') + ':' + (cityData?.country ?? $t('not found')) }}
         </div>
@@ -13,6 +13,19 @@
         <div class="text-h6 text-weight-light">
           {{ $t('City') + ':' + (cityData?.label ?? $t('not found')) }}
         </div>
+        <div class="text-h1 text-weight-thin q-my-lg">
+          <span>{{ currentTemperature }} </span>
+        </div>
+      </div>
+      <div v-else class="col text-center">
+        <div class="text-h4 text-weight-light">
+          {{ $t('Weather in your city') + ':' }}
+        </div>
+        <q-separator
+          size="1px"
+          :color="$q.dark.isActive ? 'white' : 'black'"
+          spaced
+        />
         <div class="text-h1 text-weight-thin q-my-lg">
           <span>{{ currentTemperature }} </span>
         </div>
@@ -67,7 +80,11 @@ export default {
   computed: {
     currentTemperature(): string {
       const temperature = this.weatherData.main?.temp ?? 0;
-      return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab, 'celsius');
+      return useConvert().convertTemperature(
+        temperature ?? 0,
+        this.tempUnitTab,
+        'celsius'
+      );
     },
   },
 };
