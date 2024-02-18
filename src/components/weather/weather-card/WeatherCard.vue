@@ -1,17 +1,9 @@
 <template>
   <q-card class="my-card">
     <q-card-section class="col text-center">
-      <div v-if="cityData.country && cityData.label" class="col text-center">
-        <div class="text-h4 text-weight-light">
-          {{ $t('Country') + ':' + (cityData?.country ?? $t('not found')) }}
-        </div>
-        <q-separator
-          size="1px"
-          :color="$q.dark.isActive ? 'white' : 'black'"
-          spaced
-        />
+      <div v-if="cityData.name" class="col text-center">
         <div class="text-h6 text-weight-light">
-          {{ $t('City') + ':' + (cityData?.label ?? $t('not found')) }}
+          {{ $t('City') + ':' + (cityData?.name ?? $t('not found')) }}
         </div>
         <div class="text-h1 text-weight-thin q-my-lg">
           <span>{{ currentTemperature }} </span>

@@ -6,6 +6,8 @@ export default {
     'or': 'или',
     'Find out the weather in your city': 'Узнайте погоду в вашем городе',
     'Specify my location': 'Указать мое местоположение',
+    'Select country': 'Выберите страну',
+    'Select state': 'Выберите регион',
     'Select city': 'Выберите город',
     'City': 'Город',
     'Country': 'Страна',

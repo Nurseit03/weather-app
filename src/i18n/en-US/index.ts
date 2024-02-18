@@ -6,6 +6,8 @@ export default {
   'or': 'or',
   'Find out the weather in your city': 'Find out the weather in your city',
   'Specify my location': 'Specify my location',
+  'Select country': 'Select country',
+  'Select state': 'Select state',
   'Select city': 'Select city',
   'City': 'City',
   'Country': 'Country',
