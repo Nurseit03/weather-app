@@ -2,7 +2,7 @@
   <q-card class="my-card">
     <q-card-section class="col text-center">
       <div v-if="cityData.name" class="col text-center">
-        <div class="text-h6 text-weight-light">
+        <div class="text-h5 text-weight-light">
           {{ $t('City') + ':' + (cityData?.name ?? $t('not found')) }}
         </div>
         <div class="text-h1 text-weight-thin q-my-lg">

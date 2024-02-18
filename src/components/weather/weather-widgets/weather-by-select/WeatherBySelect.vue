@@ -34,6 +34,7 @@ export default {
     },
     handleSelectState(state: IState) {
       this.selectedState = state;
+      this.$emit('onCitySelected', state);
     },
     handleSelectCity(city: ICity) {
       this.selectedCity = city;

@@ -1,8 +1,9 @@
 <template>
   <div class="q-pa-md content">
     <WeatherBySelect @onCitySelected="handleSelectCity" />
+    <WeatherCardSkeleton v-if="isFetching" />
     <WeatherCard
-      v-if="weatherData.main"
+      v-if="weatherData.main && !isFetching"
       :weatherData="weatherData"
       :cityData="cityData"
     />
@@ -12,12 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, toRefs } from 'vue';
+import { reactive, watch, toRefs, ref } from 'vue';
 import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-select/WeatherBySelect.vue';
 import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import WeatherByLocation from '@/components/weather/weather-widgets/weather-by-location/WeatherByLocation.vue';
 import { IWeather } from '@/models/weather';
 import { ICity } from '@/models/city';
+import WeatherCardSkeleton from './weather-card/WeatherCardSkeleton.vue';
 
 let weatherData = reactive<IWeather>({});
 let cityData = reactive<ICity>({
@@ -32,6 +34,8 @@ let userCoordinates = reactive({
   latitude: null as number | null,
   longitude: null as number | null,
 });
+
+let isFetching = ref(false);
 
 const handleSelectCity = (selectedCity: ICity) => {
   cityData = selectedCity;
@@ -58,12 +62,19 @@ const getWeatherByCoordinates = (
   latitude: number | null,
   longitude: number | null
 ) => {
+  isFetching.value = true;
+
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric`
   )
     .then((response) => response.json())
     .then((data) => {
       Object.assign(weatherData, toRefs(reactive(data)));
+    })
+    .finally(() => {
+      setTimeout(() => {
+        isFetching.value = false;
+      }, 500);
     });
 };
 
