@@ -28,7 +28,7 @@
 import { ref, watch } from 'vue';
 
 export default {
-  name: 'WeatherCitySelect',
+  name: 'WeatherBySelect',
   props: {
     options: {
       type: Array,

@@ -46,8 +46,8 @@
 
 <script lang="ts">
 import useConvert from '@/composables/useConvert';
-import WeatherCardDetails from '@/components/WeatherCardDetails.vue';
-import WeatherTempUnit from '@/components/WeatherTempUnit.vue';
+import WeatherCardDetails from '@/components/weather/weather-card/WeatherCardDetails.vue';
+import WeatherTempUnit from '@/components/weather/weather-widgets/WeatherTempUnit.vue';
 import { IWeather, TemperatureUnit } from '@/models/weather';
 import { ICity } from '@/models/city';
 
