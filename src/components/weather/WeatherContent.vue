@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherBySelect
-      :options="citiesList.cities"
-      @onSelect="handleSelectCity"
-    />
+    <WeatherBySelect @onCitySelected="handleSelectCity" />
     <WeatherCard
       v-if="weatherData.main"
       :weatherData="weatherData"
@@ -16,22 +13,19 @@
 
 <script setup lang="ts">
 import { reactive, watch, toRefs } from 'vue';
-import getCities from '@/server/api/cities/cities';
-import WeatherBySelect from '@/components/weather/weather-widgets/WeatherBySelect.vue';
+import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-select/WeatherBySelect.vue';
 import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
-import WeatherByLocation from '@/components/weather/weather-widgets/WeatherByLocation.vue';
+import WeatherByLocation from '@/components/weather/weather-widgets/weather-by-location/WeatherByLocation.vue';
 import { IWeather } from '@/models/weather';
 import { ICity } from '@/models/city';
 
-const citiesList = getCities();
 let weatherData = reactive<IWeather>({});
 let cityData = reactive<ICity>({
-  id: null,
-  value: null,
-  label: null,
-  lat: null,
-  lng: null,
-  country: null,
+  name: null,
+  countryCode: null,
+  stateCode: null,
+  latitude: null,
+  longitude: null,
 });
 
 let userCoordinates = reactive({
@@ -41,12 +35,17 @@ let userCoordinates = reactive({
 
 const handleSelectCity = (selectedCity: ICity) => {
   cityData = selectedCity;
-  getWeatherByCoordinates(selectedCity.lat, selectedCity.lng);
+  if (selectedCity.latitude && selectedCity.longitude) {
+    getWeatherByCoordinates(
+      parseFloat(selectedCity.latitude),
+      parseFloat(selectedCity.longitude)
+    );
+  }
 };
 
 const getUserCoordinates = () => {
   navigator.geolocation.getCurrentPosition((position) => {
-    setUserCoordinates(position?.coords?.longitude, position?.coords?.latitude);
+    setUserCoordinates(position?.coords?.latitude, position?.coords?.longitude);
   });
 };
 
@@ -88,7 +87,12 @@ watch(userCoordinates, () => {
       userCoordinates?.latitude,
       userCoordinates?.longitude
     );
-    compareUserCoordinates(cityData.lat ?? 0, cityData.lng ?? 0);
+    if (cityData.latitude && cityData.longitude) {
+      compareUserCoordinates(
+        parseFloat(cityData.latitude),
+        parseFloat(cityData.longitude)
+      );
+    }
   }
 });
 </script>
