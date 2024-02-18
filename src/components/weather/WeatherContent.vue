@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherCitySelect
+    <WeatherBySelect
       :options="citiesList.cities"
       @onSelect="handleSelectCity"
     />
@@ -17,9 +17,9 @@
 <script setup lang="ts">
 import { reactive, watch, toRefs } from 'vue';
 import getCities from '@/server/api/cities/cities';
-import WeatherCitySelect from '@/components/WeatherCitySelect.vue';
-import WeatherCard from '@/components/WeatherCard.vue';
-import WeatherByLocation from '@/components/WeatherByLocation.vue';
+import WeatherBySelect from '@/components/weather/weather-widgets/WeatherBySelect.vue';
+import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
+import WeatherByLocation from '@/components/weather/weather-widgets/WeatherByLocation.vue';
 import { IWeather } from '@/models/weather';
 import { ICity } from '@/models/city';
 

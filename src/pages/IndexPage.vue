@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import WeatherContent from 'components/WeatherContent.vue';
+import WeatherContent from '@/components/weather/WeatherContent.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
