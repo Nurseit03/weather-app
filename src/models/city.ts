@@ -1,7 +1,7 @@
 export interface ICity {
-  name: string | null;
-  countryCode: string | null;
-  stateCode: string | null;
-  latitude: string | null;
-  longitude: string | null;
+  name: string;
+  countryCode: string;
+  stateCode: string;
+  latitude: string;
+  longitude: string;
 }

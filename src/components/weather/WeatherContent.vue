@@ -23,11 +23,11 @@ import WeatherCardSkeleton from './weather-card/WeatherCardSkeleton.vue';
 
 let weatherData = reactive<IWeather>({});
 let cityData = reactive<ICity>({
-  name: null,
-  countryCode: null,
-  stateCode: null,
-  latitude: null,
-  longitude: null,
+  name: '',
+  countryCode: '',
+  stateCode: '',
+  latitude: '',
+  longitude: '',
 });
 
 let userCoordinates = reactive({

@@ -1,8 +1,17 @@
 <template>
   <div class="q-gutter-md column">
     <CountrySelect @onSelect="handleSelectCountry" />
-    <StateSelect v-if="selectedCountry" :isoCode="selectedCountry?.isoCode" @onSelect="handleSelectState" />
-    <CitySelect v-if="selectedCountry" :countryCode="selectedState?.countryCode || selectedCountry?.isoCode" :isoCode="selectedState?.isoCode" @onSelect="handleSelectCity" />
+    <StateSelect
+      v-if="selectedCountry"
+      :isoCode="selectedCountry?.isoCode"
+      @onSelect="handleSelectState"
+    />
+    <CitySelect
+      v-if="selectedCountry"
+      :countryCode="selectedState?.countryCode || selectedCountry?.isoCode"
+      :isoCode="selectedState?.isoCode"
+      @onSelect="handleSelectCity"
+    />
   </div>
 </template>
 

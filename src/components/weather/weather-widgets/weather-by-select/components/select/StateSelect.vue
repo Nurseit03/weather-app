@@ -26,7 +26,6 @@
   <script lang="ts">
   import { ref, watch } from 'vue';
   import { State } from 'country-state-city';
-  import { IState } from '@/models/state';
   
   export default {
     name: 'StateSelect',
@@ -41,18 +40,18 @@
       watch(
         () => props.isoCode,
         (newIsoCode) => {
-          if (newIsoCode !== null) {
+          if (newIsoCode) {
             filteredStates.value = State.getStatesOfCountry(newIsoCode);
           }
         }
       );
   
-      const filterStates = (val, update) => {
+      const filterStates = (val: string, update: (callback: () => void) => void) => {
         update(() => {
           const needle = val.toLocaleLowerCase();
-          if (props.isoCode !== null) {
+          if (props.isoCode) {
             filteredStates.value = State.getStatesOfCountry(props.isoCode).filter(
-              (state: IState) => state.name.toLocaleLowerCase().indexOf(needle) > -1
+              (state) => state.name.toLocaleLowerCase().indexOf(needle) > -1
             );
           }
         });

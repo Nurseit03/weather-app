@@ -37,7 +37,7 @@ export default {
     const selectedCountry = ref(null);
     const filteredCountries = ref(Country.getAllCountries());
 
-    const filterCountries = (val, update) => {
+    const filterCountries = (val: string, update: (callback: () => void) => void) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
         filteredCountries.value = Country.getAllCountries().filter(

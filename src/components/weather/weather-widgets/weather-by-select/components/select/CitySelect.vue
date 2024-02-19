@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredCities"
-    :option-label="city => city?.name"
+    :option-label="(city) => city?.name"
     @filter="filterCities"
     @update:model-value="getCity"
     style="width: 250px"
@@ -26,7 +26,6 @@
 <script lang="ts">
 import { ref, watch } from 'vue';
 import { City } from 'country-state-city';
-import { ICity } from '@/models/city';
 
 export default {
   name: 'CitySelect',
@@ -37,37 +36,42 @@ export default {
   },
   setup(props, { emit }) {
     const selectedCity = ref(null);
-    const filteredCities = ref(City.getCitiesOfCountry(props?.countryCode));
+    const filteredCities = ref(
+      City.getCitiesOfCountry(props?.countryCode ?? '')
+    );
 
     watch(
       [() => props?.countryCode, () => props?.isoCode],
       ([newCountryCode, newIsoCode]) => {
-        if (newIsoCode) {
+        if (newIsoCode && newCountryCode) {
           filteredCities.value = City.getCitiesOfState(
             newCountryCode,
             newIsoCode
           );
-        } else {
+        } else if (newCountryCode) {
           filteredCities.value = City.getCitiesOfCountry(newCountryCode);
         }
       }
     );
 
-    const filterCities = (val, update) => {
+    const filterCities = (
+      val: string,
+      update: (callback: () => void) => void
+    ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        if (props?.isoCode) {
+        const { countryCode, isoCode } = props;
+
+        if (isoCode && countryCode) {
           filteredCities.value = City.getCitiesOfState(
-            props?.countryCode,
-            props?.isoCode
+            countryCode,
+            isoCode
           ).filter(
-            (city: ICity) => city.name.toLocaleLowerCase().indexOf(needle) > -1
+            (city) => city.name.toLocaleLowerCase().indexOf(needle) > -1
           );
-        } else {
-          filteredCities.value = City.getCitiesOfCountry(
-            props?.countryCode
-          ).filter(
-            (city: ICity) => city.name.toLocaleLowerCase().indexOf(needle) > -1
+        } else if (countryCode) {
+          filteredCities.value = City.getCitiesOfCountry(countryCode)?.filter(
+            (city) => city.name.toLocaleLowerCase().indexOf(needle) > -1
           );
         }
       });
