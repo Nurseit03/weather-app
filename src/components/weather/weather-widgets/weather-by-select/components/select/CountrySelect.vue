@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredCountries"
-    :option-label="country => country?.name"
+    :option-label="(country: ICountry)=> country?.name"
     @filter="filterCountries"
     @update:model-value="getCountry"
     style="width: 250px"
