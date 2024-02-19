@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-md" style="width: 100%;">
+    <div :class="['q-pa-md', customClass]" style="width: 100%;">
       <q-card style="max-width: 400px">
         <q-item>
           <q-item-section>
@@ -21,3 +21,12 @@
       </q-card>
     </div>
   </template>
+
+<script setup>
+const props = defineProps({
+  customClass: {
+    type: String,
+    default: '',
+  },
+});
+</script>

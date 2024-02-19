@@ -1,13 +1,18 @@
 <template>
   <div class="q-gutter-md column">
-    <CountrySelect @onSelect="handleSelectCountry" />
+    <CountrySelect
+      class="fade-in"
+      @onSelect="handleSelectCountry"
+    />
     <StateSelect
       v-if="selectedCountry"
+      class="fade-in"
       :isoCode="selectedCountry?.isoCode"
       @onSelect="handleSelectState"
     />
     <CitySelect
-      v-if="selectedCountry"
+      v-if="selectedState"
+      class="fade-in"
       :countryCode="selectedState?.countryCode || selectedCountry?.isoCode"
       :isoCode="selectedState?.isoCode"
       @onSelect="handleSelectCity"
@@ -43,11 +48,11 @@ export default {
     },
     handleSelectState(state: IState) {
       this.selectedState = state;
-      this.$emit('onCitySelected', state);
+      this.$emit('onLocationSelected', state);
     },
     handleSelectCity(city: ICity) {
       this.selectedCity = city;
-      this.$emit('onCitySelected', city);
+      this.$emit('onLocationSelected', city);
     },
   },
 };

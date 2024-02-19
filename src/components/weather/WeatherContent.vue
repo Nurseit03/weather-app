@@ -1,11 +1,12 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherBySelect @onCitySelected="handleSelectCity" />
-    <WeatherCardSkeleton v-if="isFetching" />
+    <WeatherBySelect @onLocationSelected="onLocationSelected"/>
+    <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
     <WeatherCard
       v-if="weatherData.main && !isFetching"
       :weatherData="weatherData"
       :cityData="cityData"
+      :customClass="'fade-in'"
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
@@ -22,13 +23,7 @@ import { ICity } from '@/models/city';
 import WeatherCardSkeleton from './weather-card/WeatherCardSkeleton.vue';
 
 let weatherData = reactive<IWeather>({});
-let cityData = reactive<ICity>({
-  name: '',
-  countryCode: '',
-  stateCode: '',
-  latitude: '',
-  longitude: '',
-});
+let cityData = reactive<ICity>({});
 
 let userCoordinates = reactive({
   latitude: null as number | null,
@@ -37,12 +32,12 @@ let userCoordinates = reactive({
 
 let isFetching = ref(false);
 
-const handleSelectCity = (selectedCity: ICity) => {
+const onLocationSelected = (selectedCity: ICity) => {
   cityData = selectedCity;
-  if (selectedCity.latitude && selectedCity.longitude) {
+  if (cityData?.latitude && cityData?.longitude) {
     getWeatherByCoordinates(
-      parseFloat(selectedCity.latitude),
-      parseFloat(selectedCity.longitude)
+      parseFloat(cityData.latitude),
+      parseFloat(cityData.longitude)
     );
   }
 };
@@ -74,7 +69,7 @@ const getWeatherByCoordinates = (
     .finally(() => {
       setTimeout(() => {
         isFetching.value = false;
-      }, 500);
+      }, 1200);
     });
 };
 

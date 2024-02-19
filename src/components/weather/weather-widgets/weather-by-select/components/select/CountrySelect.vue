@@ -37,11 +37,15 @@ export default {
     const selectedCountry = ref(null);
     const filteredCountries = ref(Country.getAllCountries());
 
-    const filterCountries = (val: string, update: (callback: () => void) => void) => {
+    const filterCountries = (
+      val: string,
+      update: (callback: () => void) => void
+    ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
         filteredCountries.value = Country.getAllCountries().filter(
-          (country: ICountry) => country.name.toLocaleLowerCase().indexOf(needle) > -1
+          (country: ICountry) =>
+            country?.name && country.name.toLocaleLowerCase().indexOf(needle) > -1
         );
       });
     };
