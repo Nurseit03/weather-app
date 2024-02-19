@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherBySelect @onLocationSelected="onLocationSelected"/>
+    <WeatherBySelect @onLocationSelected="onLocationSelected" />
     <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
     <WeatherCard
       v-if="weatherData.main && !isFetching"
@@ -10,6 +10,12 @@
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
+    <PopupDialog
+      v-if="showDialog.show"
+      :title="showDialog.title"
+      :content="showDialog.message"
+      :buttonText="'OK'"
+    />
   </div>
 </template>
 
@@ -20,7 +26,8 @@ import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import WeatherByLocation from '@/components/weather/weather-widgets/weather-by-location/WeatherByLocation.vue';
 import { IWeather } from '@/models/weather';
 import { ICity } from '@/models/city';
-import WeatherCardSkeleton from './weather-card/WeatherCardSkeleton.vue';
+import WeatherCardSkeleton from '@/components/weather/weather-card/WeatherCardSkeleton.vue';
+import PopupDialog from '@/components/ui/PopupDialog.vue';
 
 let weatherData = reactive<IWeather>({});
 let cityData = reactive<ICity>({});
@@ -31,6 +38,11 @@ let userCoordinates = reactive({
 });
 
 let isFetching = ref(false);
+const showDialog = ref({
+  show: false,
+  title: 'failed',
+  message: '',
+});
 
 const onLocationSelected = (selectedCity: ICity) => {
   cityData = selectedCity;
@@ -43,9 +55,20 @@ const onLocationSelected = (selectedCity: ICity) => {
 };
 
 const getUserCoordinates = () => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    setUserCoordinates(position?.coords?.latitude, position?.coords?.longitude);
-  });
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      setUserCoordinates(
+        position?.coords?.latitude,
+        position?.coords?.longitude
+      );
+    },
+    (error) =>
+      (showDialog.value = {
+        show: true,
+        title: 'failed',
+        message: error?.message || 'Unknown error',
+      })
+  );
 };
 
 const setUserCoordinates = (latitude: number, longitude: number) => {

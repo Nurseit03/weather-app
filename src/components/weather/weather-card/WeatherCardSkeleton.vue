@@ -14,7 +14,7 @@
   
         <q-skeleton height="200px" square />
   
-        <q-card-actions style="align: right" class="q-gutter-md">
+        <q-card-actions align="right" class="q-gutter-md">
           <q-skeleton type="QBtn" />
           <q-skeleton type="QBtn" />
         </q-card-actions>
