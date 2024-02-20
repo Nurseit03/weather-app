@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredCities"
-    :option-label="(city) => city?.name"
+    :option-label="(city: ICity) => city?.name"
     @filter="filterCities"
     @update:model-value="getCity"
     style="width: 250px"
@@ -26,6 +26,7 @@
 <script lang="ts">
 import { ref, watch } from 'vue';
 import { City } from 'country-state-city';
+import { ICity } from '@/models/city';
 
 export default {
   name: 'CitySelect',

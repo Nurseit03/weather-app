@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredCountries"
-    :option-label="country => country?.name"
+    :option-label="(country: ICountry)=> country?.name"
     @filter="filterCountries"
     @update:model-value="getCountry"
     style="width: 250px"
@@ -37,11 +37,15 @@ export default {
     const selectedCountry = ref(null);
     const filteredCountries = ref(Country.getAllCountries());
 
-    const filterCountries = (val: string, update: (callback: () => void) => void) => {
+    const filterCountries = (
+      val: string,
+      update: (callback: () => void) => void
+    ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
         filteredCountries.value = Country.getAllCountries().filter(
-          (country: ICountry) => country.name.toLocaleLowerCase().indexOf(needle) > -1
+          (country: ICountry) =>
+            country?.name && country.name.toLocaleLowerCase().indexOf(needle) > -1
         );
       });
     };

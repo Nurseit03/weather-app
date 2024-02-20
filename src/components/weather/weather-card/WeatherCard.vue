@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card">
+  <q-card :class="['my-card', customClass]">
     <q-card-section class="col text-center">
       <div v-if="cityData.name" class="col text-center">
         <div class="text-h5 text-weight-light">
@@ -51,6 +51,10 @@ export default {
     };
   },
   props: {
+    customClass: {
+      type: String,
+      default: '',
+    },
     weatherData: {
       type: Object as () => IWeather,
       required: true,

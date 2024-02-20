@@ -33,5 +33,7 @@ export default {
   'Celsius': 'Celsius',
   'not found': 'not found',
   'Weather in your city': 'Weather in your city',
-  'Click to find out the weather in your city': 'Click to find out the weather in your city'
+  'Click to find out the weather in your city': 'Click to find out the weather in your city',
+  'User denied Geolocation': 'User denied Geolocation',
+  'Unknown error': 'Unknown error'
 };

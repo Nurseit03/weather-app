@@ -33,6 +33,8 @@ export default {
     'Celsius': 'Цельсия',
     'not found': 'не найдено',
     'Weather in your city': 'Погода в вашем городе',
-    'Click to find out the weather in your city': 'Нажмите чтобы узнать погоду в вашем городе'
+    'Click to find out the weather in your city': 'Нажмите чтобы узнать погоду в вашем городе',
+    'User denied Geolocation': 'Геолокация запрещена пользователем',
+    'Unknown error': 'Неизвестная ошибка'
   };
   
