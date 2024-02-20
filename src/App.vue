@@ -29,14 +29,31 @@ export default defineComponent({
       $q.loading.hide();
     };
 
+    const infoForMobileDevices = () => {
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        $q.loading.show({
+          spinner: QSpinnerFacebook,
+          spinnerColor: 'black',
+          spinnerSize: 140,
+          message: 'В данное время сервис доступен только для ПК, баг с версией для смартфона исправляется',
+          backgroundColor: 'inherit',
+          messageColor: 'black',
+        });
+      }
+    };
+
     onBeforeMount(() => {
       showLoading();
     });
 
     onMounted(() => {
-      setTimeout(() => {
-        hideLoading();
-      }, 2000);
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        infoForMobileDevices();
+      } else {
+        setTimeout(() => {
+          hideLoading();
+        }, 2000);
+      }
     });
   },
 });
