@@ -11,7 +11,7 @@
     :option-label="(country: IArea) => country?.name"
     :option-value="(country: IArea) => country?.id"
     @filter="filterCountries"
-    @update:model-value="getCountry"
+    @update:model-value="onSelected"
     style="width: 250px"
   >
     <template v-slot:no-option>
@@ -27,6 +27,7 @@
 <script lang="ts">
 import { ref, onMounted } from 'vue';
 import { IArea } from '@/models/area';
+import { fetchCountries } from '@/api/areas/countries';
 
 export default {
   name: 'CountrySelect',
@@ -53,42 +54,41 @@ export default {
       });
     };
 
-    const getCountry = () => {
+    const onSelected = () => {
       emit('onSelect', selectedCountry.value);
     };
 
-    onMounted(async () => {
-      try {
-        const response = await fetch('https://api.hh.ru/areas');
-        const data = await response.json();
+    const getCountriesList = async() => {
+      const countries = await fetchCountries();
+      const data = await countries.json();
 
-        const countriesData: Array<IArea> = data;
+      const countriesData: Array<IArea> = data;
 
-        const otherRegionsObject = countriesData.find(
-          (region: IArea) => region?.name === 'Другие регионы'
-        );
+      const otherRegionsObject = countriesData.find(
+        (region: IArea) => region?.name === 'Другие регионы'
+      );
 
-        if (otherRegionsObject && otherRegionsObject.areas) {
-          countriesFromApi.value = [
-            ...countriesData.filter(region => region !== otherRegionsObject),
-            ...otherRegionsObject.areas,
-          ];
-        } else {
-          countriesFromApi.value = countriesData;
-        }
-
-        filteredCountries.value = countriesFromApi.value;
-      } catch (error) {
-        console.error('Error fetching countries:', error);
+      if (otherRegionsObject && otherRegionsObject.areas) {
+        countriesFromApi.value = [
+          ...countriesData.filter((region) => region !== otherRegionsObject),
+          ...otherRegionsObject.areas,
+        ];
+      } else {
+        countriesFromApi.value = countriesData;
       }
-      getCountry();
+
+      filteredCountries.value = countriesFromApi.value;
+    };
+
+    onMounted(async () => {
+      await getCountriesList();
     });
 
     return {
       selectedCountry,
       filteredCountries,
       filterCountries,
-      getCountry,
+      onSelected,
     };
   },
 };

@@ -10,7 +10,7 @@
     :options="filteredStates"
     :option-label="(state: IArea) => state?.name"
     @filter="filterStates"
-    @update:model-value="getState"
+    @update:model-value="onSelected"
     style="width: 250px"
   >
     <template v-slot:no-option>
@@ -51,7 +51,7 @@ export default {
       });
     };
 
-    const getState = () => {
+    const onSelected = () => {
       emit('onSelect', selectedState.value);
     };
 
@@ -59,7 +59,7 @@ export default {
       selectedState,
       filteredStates,
       filterStates,
-      getState,
+      onSelected,
     };
   },
 };
