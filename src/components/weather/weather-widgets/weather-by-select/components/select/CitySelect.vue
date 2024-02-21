@@ -10,7 +10,7 @@
     :options="filteredCities"
     :option-label="(city: IArea) => city?.name"
     @filter="filterCities"
-    @update:model-value="getCity"
+    @update:model-value="onSelected"
     style="width: 250px"
   >
     <template v-slot:no-option>
@@ -51,7 +51,7 @@ export default {
       });
     };
 
-    const getCity = () => {
+    const onSelected = () => {
       emit('onSelect', selectedCity.value);
     };
 
@@ -59,7 +59,7 @@ export default {
       selectedCity,
       filteredCities,
       filterCities,
-      getCity,
+      onSelected,
     };
   },
 };
