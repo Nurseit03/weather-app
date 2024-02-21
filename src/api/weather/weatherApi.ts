@@ -1,15 +1,38 @@
-export const getWeatherByLocationName = (name: string, locale: string) => {
-  return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
-  ).then((response) => response.json());
+export const getWeatherByLocationName = async (
+  name: string,
+  locale: string
+) => {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch weather data: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    throw error;
+  }
 };
 
-export const getWeatherByCoordinates = (
+export const getWeatherByCoordinates = async (
   latitude: number | null,
   longitude: number | null,
   locale: string
 ) => {
-  return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
-  ).then((response) => response.json());
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch weather data: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    throw error;
+  }
 };
