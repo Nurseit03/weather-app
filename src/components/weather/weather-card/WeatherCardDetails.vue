@@ -16,11 +16,21 @@
       <q-item clickable v-ripple v-show="weatherData.main">
         <q-item-section>{{ $t('Temperature') }}</q-item-section>
         <q-item-section>
-          <div>{{ $t('Current') }}: {{ displayTemperature(weatherData.main?.temp) }}</div>
-          <div>{{ $t('Minimal') }}: {{ displayTemperature(weatherData.main?.temp_min) }}</div>
-          <div>{{ $t('Maximal') }}: {{ displayTemperature(weatherData.main?.temp_max) }}</div>
           <div>
-            {{ $t('Feels like') }}: {{ displayTemperature(weatherData.main?.feels_like) }}
+            {{ $t('Current') }}:
+            {{ displayTemperature(weatherData.main?.temp) }}
+          </div>
+          <div>
+            {{ $t('Minimal') }}:
+            {{ displayTemperature(weatherData.main?.temp_min) }}
+          </div>
+          <div>
+            {{ $t('Maximal') }}:
+            {{ displayTemperature(weatherData.main?.temp_max) }}
+          </div>
+          <div>
+            {{ $t('Feels like') }}:
+            {{ displayTemperature(weatherData.main?.feels_like) }}
           </div>
         </q-item-section>
       </q-item>
@@ -50,7 +60,7 @@
         <q-item-section>
           <img
             :src="weatherIconUrl"
-            style="object-fit: contain; width: 100%; height: 100%;"
+            style="object-fit: contain; width: 100%; height: 100%"
           />
         </q-item-section>
         <q-item-section>
@@ -88,7 +98,11 @@ export default {
       this.isPopupOpen = !this.isPopupOpen;
     },
     displayTemperature(temperature: number | undefined) {
-      return useConvert().convertTemperature(temperature ?? 0, this.tempUnitTab, 'celsius');
+      return useConvert().convertTemperature(
+        temperature ?? 0,
+        this.tempUnitTab,
+        'celsius'
+      );
     },
   },
   computed: {
@@ -98,3 +112,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.q-item__section--main {
+  align-items: flex-start;
+}
+</style>
