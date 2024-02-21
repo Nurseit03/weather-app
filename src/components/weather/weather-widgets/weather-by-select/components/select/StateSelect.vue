@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredStates"
-    :option-label="(state: IState) => state?.name"
+    :option-label="(state: IArea) => state?.name"
     @filter="filterStates"
     @update:model-value="getState"
     style="width: 250px"
@@ -24,28 +24,18 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
-import { State } from 'country-state-city';
-import { IState } from '@/models/state';
+import { ref } from 'vue';
+import { IArea } from '@/models/area';
 
 export default {
   name: 'StateSelect',
   props: {
-    isoCode: String,
+    areas: Array,
     onSelect: Function,
   },
   setup(props, { emit }) {
     const selectedState = ref(null);
-    const filteredStates = ref(State.getStatesOfCountry(props?.isoCode));
-
-    watch(
-      () => props.isoCode,
-      (newIsoCode) => {
-        if (newIsoCode) {
-          filteredStates.value = State.getStatesOfCountry(newIsoCode);
-        }
-      }
-    );
+    const filteredStates = ref(props.areas);
 
     const filterStates = (
       val: string,
@@ -53,11 +43,11 @@ export default {
     ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        if (props.isoCode) {
-          filteredStates.value = State.getStatesOfCountry(props.isoCode).filter(
-            (state) => state.name.toLocaleLowerCase().indexOf(needle) > -1
-          );
-        }
+        filteredStates.value = props?.areas?.filter(
+          (state: any) =>
+            state?.name &&
+            state.name.toLocaleLowerCase().indexOf(needle) > -1
+        ) || [];
       });
     };
 

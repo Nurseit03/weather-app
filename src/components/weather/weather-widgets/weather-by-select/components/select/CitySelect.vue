@@ -8,7 +8,7 @@
     fill-input
     input-debounce="0"
     :options="filteredCities"
-    :option-label="(city: ICity) => city?.name"
+    :option-label="(city: IArea) => city?.name"
     @filter="filterCities"
     @update:model-value="getCity"
     style="width: 250px"
@@ -24,36 +24,18 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
-import { City } from 'country-state-city';
-import { ICity } from '@/models/city';
+import { ref } from 'vue';
+import { IArea } from '@/models/area';
 
 export default {
   name: 'CitySelect',
   props: {
-    countryCode: String,
-    isoCode: String,
+    areas: Array,
     onSelect: Function,
   },
   setup(props, { emit }) {
     const selectedCity = ref(null);
-    const filteredCities = ref(
-      City.getCitiesOfCountry(props?.countryCode ?? '')
-    );
-
-    watch(
-      [() => props?.countryCode, () => props?.isoCode],
-      ([newCountryCode, newIsoCode]) => {
-        if (newIsoCode && newCountryCode) {
-          filteredCities.value = City.getCitiesOfState(
-            newCountryCode,
-            newIsoCode
-          );
-        } else if (newCountryCode) {
-          filteredCities.value = City.getCitiesOfCountry(newCountryCode);
-        }
-      }
-    );
+    const filteredCities = ref(props.areas);
 
     const filterCities = (
       val: string,
@@ -61,20 +43,11 @@ export default {
     ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        const { countryCode, isoCode } = props;
-
-        if (isoCode && countryCode) {
-          filteredCities.value = City.getCitiesOfState(
-            countryCode,
-            isoCode
-          ).filter(
-            (city) => city.name.toLocaleLowerCase().indexOf(needle) > -1
-          );
-        } else if (countryCode) {
-          filteredCities.value = City.getCitiesOfCountry(countryCode)?.filter(
-            (city) => city.name.toLocaleLowerCase().indexOf(needle) > -1
-          );
-        }
+        filteredCities.value = props?.areas?.filter(
+          (city: any) =>
+            city?.name &&
+            city.name.toLocaleLowerCase().indexOf(needle) > -1
+        ) || [];
       });
     };
 

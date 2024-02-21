@@ -1,17 +1,12 @@
 <template>
   <q-card :class="['my-card', customClass]">
     <q-card-section class="col text-center">
-      <div v-if="cityData.name" class="col text-center">
+      <div
+        v-if="weatherData?.name || locationData?.name"
+        class="col text-center"
+      >
         <div class="text-h5 text-weight-light">
-          {{ $t('City') + ':' + (cityData?.name ?? $t('not found')) }}
-        </div>
-        <div class="text-h1 text-weight-thin q-my-lg">
-          <span>{{ currentTemperature }} </span>
-        </div>
-      </div>
-      <div v-else class="col text-center">
-        <div class="text-h4 text-weight-light">
-          {{ $t('Weather in your city') + ':' }}
+          {{ weatherLocation }}
         </div>
         <q-separator
           size="1px"
@@ -41,7 +36,7 @@ import useConvert from '@/composables/useConvert';
 import WeatherCardDetails from '@/components/weather/weather-card/WeatherCardDetails.vue';
 import WeatherTempUnit from '@/components/weather/weather-widgets/WeatherTempUnit.vue';
 import { IWeather, TemperatureUnit } from '@/models/weather';
-import { ICity } from '@/models/city';
+import { IArea } from '@/models/area';
 
 export default {
   name: 'WeatherCard',
@@ -59,8 +54,8 @@ export default {
       type: Object as () => IWeather,
       required: true,
     },
-    cityData: {
-      type: Object as () => ICity,
+    locationData: {
+      type: Object as () => IArea,
       required: true,
     },
   },
@@ -82,13 +77,21 @@ export default {
         'celsius'
       );
     },
+    weatherLocation(): string {
+      const cityName = this.weatherData?.name || this.locationData?.name || '';
+      const locationDescription = cityName
+        ? 'Weather in'
+        : 'Weather in your city';
+
+      return `${this.$t(locationDescription)} : ${cityName}`;
+    },
   },
 };
 </script>
 
 <style scoped>
 .my-card {
-  width: 100vw;
+  width: 90vw;
   @media (min-width: 768px) {
     width: 420px;
   }

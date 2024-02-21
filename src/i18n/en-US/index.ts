@@ -36,5 +36,6 @@ export default {
   'Click to find out the weather in your city': 'Click to find out the weather in your city',
   'Origin does not have permission to use Geolocation service' : 'Origin does not have permission to use Geolocation service',
   'User denied Geolocation': 'User denied Geolocation',
-  'Unknown error': 'Unknown error'
+  'Unknown error': 'Unknown error',
+  'Weather in': 'Weather in'
 };

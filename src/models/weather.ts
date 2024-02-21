@@ -22,6 +22,7 @@ export interface IWeather {
   sys?:{
     country: string;
   }
+  name?: string;
 }
 
 export type TemperatureUnit = 'celsius' | 'fahrenheit';
