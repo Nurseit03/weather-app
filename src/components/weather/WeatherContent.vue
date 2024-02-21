@@ -3,9 +3,9 @@
     <WeatherBySelect @onLocationSelected="onLocationSelected" />
     <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
     <WeatherCard
-      v-if="weatherData.main && !isFetching"
+      v-if="weatherData?.main && !isFetching"
       :weatherData="weatherData"
-      :cityData="cityData"
+      :locationData="locationData"
       :customClass="'fade-in'"
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
@@ -20,41 +20,41 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { reactive, watch, toRefs, ref } from 'vue';
-import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-select/WeatherBySelect.vue';
-import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import WeatherByLocation from '@/components/weather/weather-widgets/weather-by-location/WeatherByLocation.vue';
-import { IWeather } from '@/models/weather';
-import { ICity } from '@/models/city';
+import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-select/WeatherBySelect.vue';
 import WeatherCardSkeleton from '@/components/weather/weather-card/WeatherCardSkeleton.vue';
+import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import PopupDialog from '@/components/ui/PopupDialog.vue';
+import { IWeather } from '@/models/weather';
+import { IArea } from '@/models/area';
+
+const { locale } = useI18n();
 
 let weatherData = reactive<IWeather>({});
-let cityData = reactive<ICity>({});
-
-let userCoordinates = reactive({
-  latitude: null as number | null,
-  longitude: null as number | null,
-});
-
+let locationData = reactive<IArea>({});
 let isFetching = ref(false);
+
 const showDialog = ref({
   show: false,
   title: 'failed',
   message: '',
 });
 
-const onLocationSelected = (selectedCity: ICity) => {
-  cityData = selectedCity;
-  if (cityData?.latitude && cityData?.longitude) {
-    getWeatherByCoordinates(
-      parseFloat(cityData.latitude),
-      parseFloat(cityData.longitude)
-    );
-  }
+let userCoordinates = reactive({
+  latitude: null as number | null,
+  longitude: null as number | null,
+});
+
+const onLocationSelected = (selectedArea: IArea) => {
+  // запросить погоду при выборе локации из списка
+  locationData = selectedArea;
+  selectedArea?.name && getWeatherByLocationName(selectedArea.name);
 };
 
 const getUserCoordinates = () => {
+  // получение местоположения пользователя
   navigator.geolocation.getCurrentPosition(
     (position) => {
       setUserCoordinates(
@@ -76,6 +76,23 @@ const setUserCoordinates = (latitude: number, longitude: number) => {
   userCoordinates.longitude = longitude;
 };
 
+const getWeatherByLocationName = (name: string) => {
+  isFetching.value = true;
+
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${
+      process.env.WEATHER_API_KEY
+    }&units=metric&lang=${locale.value.slice(0, 2)}`
+  )
+    .then((response) => response.json())
+    .then((data) => Object.assign(weatherData, toRefs(reactive(data))))
+    .finally(() => {
+      setTimeout(() => {
+        isFetching.value = false;
+      }, 1200);
+    });
+};
+
 const getWeatherByCoordinates = (
   latitude: number | null,
   longitude: number | null
@@ -83,7 +100,9 @@ const getWeatherByCoordinates = (
   isFetching.value = true;
 
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+      process.env.WEATHER_API_KEY
+    }&units=metric&lang=${locale.value.slice(0, 2)}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -96,32 +115,23 @@ const getWeatherByCoordinates = (
     });
 };
 
-const compareUserCoordinates = (newLatitude: number, newLongitude: number) => {
-  const { latitude, longitude } = userCoordinates;
-
-  if (latitude !== newLatitude || longitude !== newLongitude) {
-    resetObject(cityData);
+const onLocaleChange = () => {      // при смене языка сделать обратно запрос с новым параметром языка
+  if (locationData?.name) {
+    getWeatherByLocationName(locationData.name);
+  } else if (userCoordinates?.latitude && userCoordinates?.longitude) {
+    getWeatherByCoordinates(userCoordinates.latitude, userCoordinates.longitude);
   }
 };
 
-const resetObject = (obj: any) => {
-  Object.keys(obj).forEach((key) => {
-    obj[key as keyof typeof obj] = null;
-  });
-};
+watch(() => locale.value, onLocaleChange);
 
 watch(userCoordinates, () => {
+  //  запросить погоду при получении местоположения пользователя
   if (userCoordinates) {
     getWeatherByCoordinates(
       userCoordinates?.latitude,
       userCoordinates?.longitude
     );
-    if (cityData.latitude && cityData.longitude) {
-      compareUserCoordinates(
-        parseFloat(cityData.latitude),
-        parseFloat(cityData.longitude)
-      );
-    }
   }
 });
 </script>

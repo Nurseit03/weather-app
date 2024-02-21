@@ -47,13 +47,13 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      if (/Mobi|Android/i.test(navigator.userAgent)) {
-        infoForMobileDevices();
-      } else {
+      // if (/Mobi|Android/i.test(navigator.userAgent)) {
+      //   infoForMobileDevices();
+      // } else {
         setTimeout(() => {
           hideLoading();
         }, 2000);
-      }
+      // }
     });
   },
 });

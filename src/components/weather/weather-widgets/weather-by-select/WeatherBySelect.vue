@@ -5,16 +5,15 @@
       @onSelect="handleSelectCountry"
     />
     <StateSelect
-      v-if="selectedCountry"
+      v-if="selectedCountry?.areas && selectedCountry.areas.length > 0"
       class="fade-in"
-      :isoCode="selectedCountry?.isoCode"
+      :areas="selectedCountry?.areas"
       @onSelect="handleSelectState"
     />
     <CitySelect
-      v-if="selectedState"
+      v-if="selectedState?.areas && selectedState.areas.length > 0"
       class="fade-in"
-      :countryCode="selectedState?.countryCode || selectedCountry?.isoCode"
-      :isoCode="selectedState?.isoCode"
+      :areas="selectedState?.areas"
       @onSelect="handleSelectCity"
     />
   </div>
@@ -22,11 +21,9 @@
 
 <script lang="ts">
 import CountrySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CountrySelect.vue';
-import StateSelect from '@/components/weather/weather-widgets/weather-by-select/components/select/StateSelect.vue';
+import StateSelect from './components/select/StateSelect.vue';
 import CitySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CitySelect.vue';
-import { ICountry } from '@/models/country';
-import { IState } from '@/models/state';
-import { ICity } from '@/models/city';
+import { IArea } from '@/models/area';
 
 export default {
   name: 'WeatherBySelect',
@@ -37,20 +34,20 @@ export default {
   },
   data() {
     return {
-      selectedCountry: null as ICountry | null,
-      selectedState: null as IState | null,
-      selectedCity: null as ICity | null,
+      selectedCountry: null as IArea | null,
+      selectedState: null as IArea | null,
+      selectedCity: null as IArea | null,
     };
   },
   methods: {
-    handleSelectCountry(country: ICountry) {
+    handleSelectCountry(country: IArea) {
       this.selectedCountry = country;
     },
-    handleSelectState(state: IState) {
+    handleSelectState(state: IArea) {
       this.selectedState = state;
       this.$emit('onLocationSelected', state);
     },
-    handleSelectCity(city: ICity) {
+    handleSelectCity(city: IArea) {
       this.selectedCity = city;
       this.$emit('onLocationSelected', city);
     },

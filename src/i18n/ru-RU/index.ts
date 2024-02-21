@@ -36,6 +36,7 @@ export default {
     'Click to find out the weather in your city': 'Нажмите чтобы узнать погоду в вашем городе',
     'Origin does not have permission to use Geolocation service' : 'Веб-сайт не имеет разрешения на использование службы геолокации',
     'User denied Geolocation': 'Геолокация запрещена пользователем',
-    'Unknown error': 'Неизвестная ошибка'
+    'Unknown error': 'Неизвестная ошибка',
+    'Weather in': 'Погода в'
   };
   
