@@ -34,6 +34,11 @@ export const useWeatherService = () => {
           position?.coords?.latitude,
           position?.coords?.longitude
         );
+
+        getWeatherByCoordinates(
+          position?.coords?.latitude,
+          position?.coords?.longitude
+        );
       },
       (error) => {
         showDialog.value = {
@@ -77,7 +82,7 @@ export const useWeatherService = () => {
       .finally(() => {
         setTimeout(() => {
           isFetching.value = false;
-        }, 1200);
+        }, 1000);
       });
   };
 
@@ -93,15 +98,6 @@ export const useWeatherService = () => {
   };
 
   watch(() => locale.value, onLocaleChange);
-
-  watch(userCoordinates, () => {
-    if (userCoordinates) {
-      getWeatherByCoordinates(
-        userCoordinates.latitude,
-        userCoordinates.longitude
-      );
-    }
-  });
 
   return {
     weatherData,
