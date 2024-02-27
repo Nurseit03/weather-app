@@ -89,7 +89,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .my-card {
   width: 90vw;
   @media (min-width: 768px) {
