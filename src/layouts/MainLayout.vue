@@ -24,19 +24,7 @@ import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-
   components: { LocaleSwitcher, ThemeSwitcher },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-    };
-  },
 });
 </script>
 

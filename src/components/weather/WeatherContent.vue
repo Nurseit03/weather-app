@@ -10,12 +10,6 @@
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
     <WeatherByLocation :getUserCoordinates="getUserCoordinates" />
-    <PopupDialog
-      v-if="showDialog.show"
-      :title="showDialog.title"
-      :content="showDialog.message"
-      :buttonText="'OK'"
-    />
   </div>
 </template>
 
@@ -24,14 +18,12 @@ import WeatherByLocation from '@/components/weather/weather-widgets/weather-by-l
 import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-select/WeatherBySelect.vue';
 import WeatherCardSkeleton from '@/components/weather/weather-card/WeatherCardSkeleton.vue';
 import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
-import PopupDialog from '@/components/ui/PopupDialog.vue';
 import { useWeatherService } from '@/services/weatherService';
 
 const {
   weatherData,
   locationData,
   isFetching,
-  showDialog,
   onLocationSelected,
   getUserCoordinates,
 } = useWeatherService();
