@@ -1,3 +1,4 @@
+import { useQuasar } from 'quasar';
 import { ref, reactive, watch, toRefs } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
 import { useI18n } from 'vue-i18n';
@@ -5,17 +6,12 @@ import { IWeather } from '@/models/weather';
 import { IArea } from '@/models/area';
 
 export const useWeatherService = () => {
-  const { locale } = useI18n();
+  const $q = useQuasar();
+  const { locale, t } = useI18n();
 
   const weatherData = reactive<IWeather>({});
   const locationData = ref<IArea>({});
   const isFetching = ref(false);
-
-  const showDialog = ref({
-    show: false,
-    title: 'failed',
-    message: '',
-  });
 
   const userCoordinates = reactive({
     latitude: null as number | null,
@@ -41,11 +37,10 @@ export const useWeatherService = () => {
         );
       },
       (error) => {
-        showDialog.value = {
-          show: true,
-          title: 'failed',
-          message: error?.message || 'Unknown error',
-        };
+        $q.dialog({
+          title: t('failed'),
+          message: t(`${error?.message ?? 'Unknown error'}`),
+        });
       }
     );
   };
@@ -103,7 +98,6 @@ export const useWeatherService = () => {
     weatherData,
     locationData,
     isFetching,
-    showDialog,
     onLocationSelected,
     getUserCoordinates,
   };
