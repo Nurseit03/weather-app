@@ -92,6 +92,40 @@ export const useWeatherService = () => {
     }
   };
 
+  const findAllParentsByName = (
+    searchedName: string,
+    node: IArea,
+    parents: Record<string, IArea> = {}
+  ): Record<string, IArea> => {
+    if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
+      return { ...parents, [determineObjectType(node)]: { ...node } };
+    }
+  
+    if (node.areas && node.areas.length > 0) {
+      for (const area of node.areas) {
+        const result = findAllParentsByName(searchedName, area, {
+          ...parents,
+          [determineObjectType(node)]: { ...node },
+        });
+        if (Object.keys(result).length > 0) {
+          return result;
+        }
+      }
+    }
+  
+    return {};
+  };
+  
+  const determineObjectType = (node: IArea) => {
+    if (node.parent_id === null) {
+      return 'country';
+    } else if (node.parent_id !== null && node.areas && node.areas.length > 0) {
+      return 'state';
+    } else {
+      return 'city';
+    }
+  };  
+
   watch(() => locale.value, onLocaleChange);
 
   return {
@@ -100,5 +134,6 @@ export const useWeatherService = () => {
     isFetching,
     onLocationSelected,
     getUserCoordinates,
+    findAllParentsByName,
   };
 };
