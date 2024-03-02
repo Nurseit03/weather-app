@@ -1,14 +1,16 @@
 import { useQuasar } from 'quasar';
-import { ref, reactive, watch, toRefs } from 'vue';
+import { ref, reactive, watch, toRefs, nextTick } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
+import { fetchCountries } from '@/api/areas/countries';
 import { useI18n } from 'vue-i18n';
 import { IWeather } from '@/models/weather';
-import { IArea } from '@/models/area';
+import { AreaType, IArea } from '@/models/area';
 
 export const useWeatherService = () => {
   const $q = useQuasar();
   const { locale, t } = useI18n();
 
+  const defaultAreas = ref<AreaType>({});
   const weatherData = reactive<IWeather>({});
   const locationData = ref<IArea>({});
   const isFetching = ref(false);
@@ -26,15 +28,15 @@ export const useWeatherService = () => {
   const getUserCoordinates = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUserCoordinates(
-          position?.coords?.latitude,
-          position?.coords?.longitude
-        );
+          setUserCoordinates(
+            position?.coords?.latitude,
+            position?.coords?.longitude
+          );
 
-        getWeatherByCoordinates(
-          position?.coords?.latitude,
-          position?.coords?.longitude
-        );
+          getWeatherByCoordinates(
+            position?.coords?.latitude,
+            position?.coords?.longitude
+          );
       },
       (error) => {
         $q.dialog({
@@ -73,7 +75,10 @@ export const useWeatherService = () => {
       longitude,
       locale.value.slice(0, 2)
     )
-      .then((data: IArea) => Object.assign(weatherData, toRefs(reactive(data))))
+      .then((data: IArea) => {
+        data?.name && setDefaultAreas(data?.name);
+        Object.assign(weatherData, toRefs(reactive(data)));
+      })
       .finally(() => {
         setTimeout(() => {
           isFetching.value = false;
@@ -92,39 +97,63 @@ export const useWeatherService = () => {
     }
   };
 
-  const findAllParentsByName = (
+  const setDefaultAreas = async (name: string) => {
+    const data = await fetchCountries().then((data) => data.json());
+    const parents = findLinkedAreasByName(name, data);
+
+    await nextTick(() => {
+      defaultAreas.value = parents;
+    });
+  };
+
+  const findLinkedAreasByName = (
     searchedName: string,
-    node: IArea,
+    node: IArea | IArea[],
     parents: Record<string, IArea> = {}
   ): Record<string, IArea> => {
-    if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
-      return { ...parents, [determineObjectType(node)]: { ...node } };
-    }
-  
-    if (node.areas && node.areas.length > 0) {
-      for (const area of node.areas) {
-        const result = findAllParentsByName(searchedName, area, {
+    if (Array.isArray(node)) {
+      for (const area of node) {
+        const result = findLinkedAreasByName(searchedName, area, {
           ...parents,
-          [determineObjectType(node)]: { ...node },
+          [determineAreaType(area,node[0])]: { ...area },
         });
         if (Object.keys(result).length > 0) {
           return result;
         }
       }
+      return {};
     }
-  
+
+    if (typeof node === 'object' && node !== null && parents != null) {
+      if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
+        return { ...parents, [determineAreaType(node, parents?.country)]: { ...node } };
+      }
+
+      if (node?.areas && node?.areas?.length > 0) {
+        for (const area of node.areas) {
+          const result = findLinkedAreasByName(searchedName, area, {
+            ...parents,
+            [determineAreaType(area, node)]: { ...area },
+          });
+          if (Object.keys(result).length > 0) {
+            return result;
+          }
+        }
+      }
+    }
+
     return {};
   };
-  
-  const determineObjectType = (node: IArea) => {
-    if (node.parent_id === null) {
+
+  const determineAreaType = (node: IArea, parentNode?: IArea) => {
+    if (!node?.parent_id) {
       return 'country';
-    } else if (node.parent_id !== null && node.areas && node.areas.length > 0) {
+    } else if (node?.parent_id != null && !parentNode?.parent_id) {
       return 'state';
     } else {
       return 'city';
     }
-  };  
+  };
 
   watch(() => locale.value, onLocaleChange);
 
@@ -134,6 +163,7 @@ export const useWeatherService = () => {
     isFetching,
     onLocationSelected,
     getUserCoordinates,
-    findAllParentsByName,
+    findLinkedAreasByName,
+    defaultAreas,
   };
 };

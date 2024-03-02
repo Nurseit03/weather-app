@@ -1,7 +1,7 @@
 <template>
   <q-select
     filled
-    :label="$t('Select country')"
+    :label="selectedCountry ? $t('Country') : $t('Select country')"
     v-model="selectedCountry"
     use-input
     hide-selected
@@ -33,10 +33,14 @@ export default {
   name: 'CountrySelect',
   props: {
     onSelect: Function,
+    defaultArea: {
+      type: Object as () => IArea | null,
+      default: null,
+    },
   },
 
   setup(props, { emit }) {
-    const selectedCountry = ref(null);
+    const selectedCountry = ref(props?.defaultArea ?? null);
     const filteredCountries = ref<IArea[]>([]);
     const countriesFromApi = ref<IArea[]>([]);
 
@@ -58,7 +62,7 @@ export default {
       emit('onSelect', selectedCountry.value);
     };
 
-    const getCountriesList = async() => {
+    const getCountriesList = async () => {
       const countries = await fetchCountries();
       const data = await countries.json();
 

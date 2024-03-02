@@ -1,7 +1,7 @@
 <template>
   <q-select
     filled
-    :label="$t('Select state')"
+    :label="selectedState ? $t('State') : $t('Select state')"
     v-model="selectedState"
     use-input
     hide-selected
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { IArea } from '@/models/area';
 
 export default {
@@ -32,10 +32,14 @@ export default {
   props: {
     areas: Array,
     onSelect: Function,
+    defaultArea: {
+      type: Object as () => IArea | null,
+      default: null,
+    },
   },
   setup(props, { emit }) {
-    const selectedState = ref(null);
-    const filteredStates = ref(props.areas);
+    const selectedState = ref(props?.defaultArea ?? null);
+    const filteredStates = ref(props?.areas ?? []);
 
     const filterStates = (
       val: string,

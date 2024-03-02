@@ -2,18 +2,21 @@
   <div class="q-gutter-md column">
     <CountrySelect
       class="fade-in"
+      :defaultArea="defaultAreas?.country"
       @onSelect="handleSelectCountry"
     />
     <StateSelect
-      v-if="selectedCountry?.areas && selectedCountry.areas.length > 0"
+      v-if="(selectedCountry?.areas && selectedCountry.areas.length > 0) || defaultAreas?.state"
       class="fade-in"
-      :areas="selectedCountry?.areas"
+      :areas="stateAreas"
+      :defaultArea="defaultAreas?.state"
       @onSelect="handleSelectState"
     />
     <CitySelect
-      v-if="selectedState?.areas && selectedState.areas.length > 0"
+      v-if="(selectedState?.areas && selectedState.areas.length > 0) || defaultAreas?.city"
       class="fade-in"
-      :areas="selectedState?.areas"
+      :areas="cityAreas"
+      :defaultArea="defaultAreas?.city"
       @onSelect="handleSelectCity"
     />
   </div>
@@ -23,7 +26,7 @@
 import CountrySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CountrySelect.vue';
 import StateSelect from './components/select/StateSelect.vue';
 import CitySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CitySelect.vue';
-import { IArea } from '@/models/area';
+import { AreaType, IArea } from '@/models/area';
 
 export default {
   name: 'WeatherBySelect',
@@ -31,6 +34,21 @@ export default {
     CountrySelect,
     StateSelect,
     CitySelect,
+  },
+  props: {
+    defaultAreas: {
+      type: Object as () => AreaType | null,
+      default: null,
+    }
+  },
+  computed: {
+    stateAreas(): IArea[] | null {
+      return this.defaultAreas?.country?.areas || this.selectedCountry?.areas || null;
+    },
+    cityAreas(): IArea[] | null {
+      const t =  this.defaultAreas?.state?.areas || this.defaultAreas?.country?.areas || this.selectedState?.areas || null;
+      return t;
+    },
   },
   data() {
     return {
