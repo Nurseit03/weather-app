@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md content">
-    <WeatherBySelect @onLocationSelected="onLocationSelected" />
+    <WeatherBySelect @onLocationSelected="onLocationSelected" :defaultAreas="defaultAreas" />
     <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
     <WeatherCard
       v-if="weatherData?.main && !isFetching"
@@ -26,6 +26,7 @@ const {
   isFetching,
   onLocationSelected,
   getUserCoordinates,
+  defaultAreas,
 } = useWeatherService();
 </script>
 

@@ -9,6 +9,7 @@ export default {
   'Select country': 'Select country',
   'Select state': 'Select state',
   'Select city': 'Select city',
+  'State': 'Region',
   'City': 'City',
   'Country': 'Country',
   'Rain': 'Rain',
