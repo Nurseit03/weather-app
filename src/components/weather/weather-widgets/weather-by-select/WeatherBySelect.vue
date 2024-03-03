@@ -1,19 +1,32 @@
 <template>
   <div class="q-gutter-md column">
     <CountrySelect
+      v-if="!defaultAreas?.country"
+      :class="defaultAreas?.country ? 'fade-out' : 'fade-in'"
+      :defaultArea="defaultAreas?.country"
+      @onSelect="handleSelectCountry"
+    />
+    <CountrySelect
+      v-if="defaultAreas?.country"
       class="fade-in"
       :defaultArea="defaultAreas?.country"
       @onSelect="handleSelectCountry"
     />
     <StateSelect
-      v-if="(selectedCountry?.areas && selectedCountry.areas.length > 0) || defaultAreas?.state"
+      v-if="
+        (selectedCountry?.areas && selectedCountry.areas.length > 0) ||
+        defaultAreas?.state
+      "
       class="fade-in"
       :areas="stateAreas"
       :defaultArea="defaultAreas?.state"
       @onSelect="handleSelectState"
     />
     <CitySelect
-      v-if="(selectedState?.areas && selectedState.areas.length > 0) || defaultAreas?.city"
+      v-if="
+        (selectedState?.areas && selectedState.areas.length > 0) ||
+        defaultAreas?.city
+      "
       class="fade-in"
       :areas="cityAreas"
       :defaultArea="defaultAreas?.city"
@@ -39,15 +52,21 @@ export default {
     defaultAreas: {
       type: Object as () => AreaType | null,
       default: null,
-    }
+    },
   },
   computed: {
     stateAreas(): IArea[] | null {
-      return this.defaultAreas?.country?.areas || this.selectedCountry?.areas || null;
+      return (
+        this.defaultAreas?.country?.areas || this.selectedCountry?.areas || null
+      );
     },
     cityAreas(): IArea[] | null {
-      const t =  this.defaultAreas?.state?.areas || this.defaultAreas?.country?.areas || this.selectedState?.areas || null;
-      return t;
+      return (
+        this.defaultAreas?.state?.areas ||
+        this.defaultAreas?.country?.areas ||
+        this.selectedState?.areas ||
+        null
+      );
     },
   },
   data() {
