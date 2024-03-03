@@ -57,14 +57,14 @@ export default {
   computed: {
     stateAreas(): IArea[] | null {
       return (
-        this.defaultAreas?.country?.areas || this.selectedCountry?.areas || null
+        this.selectedCountry?.areas || this.defaultAreas?.country?.areas || null
       );
     },
     cityAreas(): IArea[] | null {
       return (
+        this.selectedState?.areas ||
         this.defaultAreas?.state?.areas ||
         this.defaultAreas?.country?.areas ||
-        this.selectedState?.areas ||
         null
       );
     },
