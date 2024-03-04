@@ -47,17 +47,25 @@ export default {
     ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        filteredCities.value = props?.areas?.filter(
-          (city: any) =>
-            city?.name &&
-            city.name.toLocaleLowerCase().indexOf(needle) > -1
-        ) || [];
+        filteredCities.value =
+          props?.areas?.filter(
+            (city: any) =>
+              city?.name && city.name.toLocaleLowerCase().indexOf(needle) > -1
+          ) || [];
       });
     };
 
     const onSelected = () => {
       emit('onSelect', selectedCity.value);
     };
+
+    watch(
+      () => props.defaultArea,
+      (newVal) => {
+        selectedCity.value = newVal;
+      },
+      { deep: true }
+    );
 
     return {
       selectedCity,

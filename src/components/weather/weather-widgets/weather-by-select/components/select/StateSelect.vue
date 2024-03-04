@@ -26,6 +26,7 @@
 <script lang="ts">
 import { ref, watch } from 'vue';
 import { IArea } from '@/models/area';
+import { Ref } from 'vue';
 
 export default {
   name: 'StateSelect',
@@ -47,17 +48,25 @@ export default {
     ) => {
       update(() => {
         const needle = val.toLocaleLowerCase();
-        filteredStates.value = props?.areas?.filter(
-          (state: any) =>
-            state?.name &&
-            state.name.toLocaleLowerCase().indexOf(needle) > -1
-        ) || [];
+        filteredStates.value =
+          props?.areas?.filter(
+            (state: any) =>
+              state?.name && state.name.toLocaleLowerCase().indexOf(needle) > -1
+          ) || [];
       });
     };
 
     const onSelected = () => {
       emit('onSelect', selectedState.value);
     };
+
+    watch(
+      () => props.defaultArea,
+      (newVal) => {
+        selectedState.value = newVal;
+      },
+      { deep: true }
+    );
 
     return {
       selectedState,

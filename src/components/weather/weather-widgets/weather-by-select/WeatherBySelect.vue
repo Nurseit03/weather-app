@@ -1,35 +1,22 @@
 <template>
   <div class="q-gutter-md column">
     <CountrySelect
-      v-if="!defaultAreas?.country"
-      :class="defaultAreas?.country ? 'fade-out' : 'fade-in'"
-      :defaultArea="defaultAreas?.country"
-      @onSelect="handleSelectCountry"
-    />
-    <CountrySelect
-      v-if="defaultAreas?.country"
       class="fade-in"
-      :defaultArea="defaultAreas?.country"
+      :defaultArea="countryDefaultArea"
       @onSelect="handleSelectCountry"
     />
     <StateSelect
-      v-if="
-        (selectedCountry?.areas && selectedCountry.areas.length > 0) ||
-        defaultAreas?.state
-      "
+      v-if="showState"
       class="fade-in"
       :areas="stateAreas"
-      :defaultArea="defaultAreas?.state"
+      :defaultArea="stateDefaultArea"
       @onSelect="handleSelectState"
     />
     <CitySelect
-      v-if="
-        (selectedState?.areas && selectedState.areas.length > 0) ||
-        defaultAreas?.city
-      "
+      v-if="showCity"
       class="fade-in"
       :areas="cityAreas"
-      :defaultArea="defaultAreas?.city"
+      :defaultArea="cityDefaultArea"
       @onSelect="handleSelectCity"
     />
   </div>
@@ -54,21 +41,6 @@ export default {
       default: null,
     },
   },
-  computed: {
-    stateAreas(): IArea[] | null {
-      return (
-        this.selectedCountry?.areas || this.defaultAreas?.country?.areas || null
-      );
-    },
-    cityAreas(): IArea[] | null {
-      return (
-        this.selectedState?.areas ||
-        this.defaultAreas?.state?.areas ||
-        this.defaultAreas?.country?.areas ||
-        null
-      );
-    },
-  },
   data() {
     return {
       selectedCountry: null as IArea | null,
@@ -87,6 +59,43 @@ export default {
     handleSelectCity(city: IArea) {
       this.selectedCity = city;
       this.$emit('onLocationSelected', city);
+    },
+  },
+  computed: {
+    stateAreas(): IArea[] | null {
+      return (
+        this.selectedCountry?.areas || this.defaultAreas?.country?.areas || null
+      );
+    },
+    cityAreas(): IArea[] | null {
+      return (
+        this.selectedState?.areas ||
+        this.defaultAreas?.state?.areas ||
+        this.defaultAreas?.country?.areas ||
+        null
+      );
+    },
+    countryDefaultArea(): IArea | null {
+      return this.defaultAreas?.country ?? null;
+    },
+    stateDefaultArea(): IArea | null {
+      return this.selectedCountry ? null : this.defaultAreas?.state ?? null;
+    },
+    cityDefaultArea(): IArea | null {
+      return this.selectedState ? null : this.defaultAreas?.city ?? null;
+    },
+    showState(): boolean {
+      return !!(
+        (this.selectedCountry?.areas &&
+          this.selectedCountry.areas.length > 0) ||
+        this.defaultAreas?.state
+      );
+    },
+    showCity(): boolean {
+      return !!(
+        (this.selectedState?.areas && this.selectedState.areas.length > 0) ||
+        this.defaultAreas?.city
+      );
     },
   },
 };
