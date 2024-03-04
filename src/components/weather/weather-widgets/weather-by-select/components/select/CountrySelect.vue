@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { IArea } from '@/models/area';
 import { fetchCountries } from '@/api/areas/countries';
 
@@ -87,6 +87,14 @@ export default {
     onMounted(async () => {
       await getCountriesList();
     });
+
+    watch(
+      () => props.defaultArea,
+      (newVal) => {
+        selectedCountry.value = newVal;
+      },
+      { deep: true }
+    );
 
     return {
       selectedCountry,
