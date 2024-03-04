@@ -38,6 +38,7 @@ export default {
     'Origin does not have permission to use Geolocation service' : 'Веб-сайт не имеет разрешения на использование службы геолокации',
     'User denied Geolocation': 'Геолокация запрещена пользователем',
     'Unknown error': 'Неизвестная ошибка',
+    'Failed to fetch weather data: Not Found': 'Не удалось получить данные о погоде: Не найдено',
     'Weather in': 'Погода в'
   };
   

@@ -28,15 +28,15 @@ export const useWeatherService = () => {
   const getUserCoordinates = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-          setUserCoordinates(
-            position?.coords?.latitude,
-            position?.coords?.longitude
-          );
+        setUserCoordinates(
+          position?.coords?.latitude,
+          position?.coords?.longitude
+        );
 
-          getWeatherByCoordinates(
-            position?.coords?.latitude,
-            position?.coords?.longitude
-          );
+        getWeatherByCoordinates(
+          position?.coords?.latitude,
+          position?.coords?.longitude
+        );
       },
       (error) => {
         $q.dialog({
@@ -61,6 +61,12 @@ export const useWeatherService = () => {
         setTimeout(() => {
           isFetching.value = false;
         }, 1200);
+      })
+      .catch((error: any) => {
+        $q.dialog({
+          title: t('failed'),
+          message: t(`${error?.message ?? 'Unknown error'}`),
+        });
       });
   };
 
@@ -83,6 +89,12 @@ export const useWeatherService = () => {
         setTimeout(() => {
           isFetching.value = false;
         }, 1000);
+      })
+      .catch((error: any) => {
+        $q.dialog({
+          title: t('failed'),
+          message: t(`${error?.message ?? 'Unknown error'}`),
+        });
       });
   };
 
@@ -115,7 +127,7 @@ export const useWeatherService = () => {
       for (const area of node) {
         const result = findLinkedAreasByName(searchedName, area, {
           ...parents,
-          [determineAreaType(area,node[0])]: { ...area },
+          [determineAreaType(area, node[0])]: { ...area },
         });
         if (Object.keys(result).length > 0) {
           return result;
@@ -126,7 +138,10 @@ export const useWeatherService = () => {
 
     if (typeof node === 'object' && node !== null && parents != null) {
       if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
-        return { ...parents, [determineAreaType(node, parents?.country)]: { ...node } };
+        return {
+          ...parents,
+          [determineAreaType(node, parents?.country)]: { ...node },
+        };
       }
 
       if (node?.areas && node?.areas?.length > 0) {

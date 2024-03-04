@@ -38,5 +38,6 @@ export default {
   'Origin does not have permission to use Geolocation service' : 'Origin does not have permission to use Geolocation service',
   'User denied Geolocation': 'User denied Geolocation',
   'Unknown error': 'Unknown error',
+  'Failed to fetch weather data: Not Found': 'Failed to fetch weather data: Not Found',
   'Weather in': 'Weather in'
 };
