@@ -39,5 +39,7 @@ export default {
   'User denied Geolocation': 'User denied Geolocation',
   'Unknown error': 'Unknown error',
   'Failed to fetch weather data: Not Found': 'Failed to fetch weather data: Not Found',
-  'Weather in': 'Weather in'
+  'Weather in': 'Weather in',
+  'No notifications': 'No notifications',
+  'Close': 'Close'
 };

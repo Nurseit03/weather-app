@@ -1,6 +1,7 @@
 <template>
   <q-btn
     @click="handleTheme"
+    round
     :icon="darkMode ? 'dark_mode' : 'light_mode'"
   />
 </template>

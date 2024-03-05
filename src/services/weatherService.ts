@@ -3,11 +3,13 @@ import { ref, reactive, watch, toRefs, nextTick } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
 import { fetchCountries } from '@/api/areas/countries';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import { IWeather } from '@/models/weather';
 import { AreaType, IArea } from '@/models/area';
 
 export const useWeatherService = () => {
   const $q = useQuasar();
+  const $store = useStore();
   const { locale, t } = useI18n();
 
   const defaultAreas = ref<AreaType>({});
@@ -19,6 +21,16 @@ export const useWeatherService = () => {
     latitude: null as number | null,
     longitude: null as number | null,
   });
+
+  const addNotification = (message: string) => {
+    const notification = {
+      id: Date.now(),
+      date: new Date(),
+      message,
+    };
+
+    $store.dispatch('addNotification', notification);
+  };
 
   const onLocationSelected = (selectedArea: IArea) => {
     locationData.value = selectedArea;
@@ -43,6 +55,8 @@ export const useWeatherService = () => {
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
+
+        addNotification(`Ошибка получения координат пользователя`);
       }
     );
   };
@@ -52,11 +66,14 @@ export const useWeatherService = () => {
     userCoordinates.longitude = longitude;
   };
 
-  const getWeatherByLocationName = (name: string) => {
+  const getWeatherByLocationName = async (name: string) => {
     isFetching.value = true;
 
     WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
-      .then((data: IArea) => Object.assign(weatherData, toRefs(reactive(data))))
+      .then((data: IArea) => {
+        Object.assign(weatherData, toRefs(reactive(data)));
+        addNotification(`Погода успешно получена для: ${name}`);
+      })
       .finally(() => {
         setTimeout(() => {
           isFetching.value = false;
@@ -67,6 +84,8 @@ export const useWeatherService = () => {
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
+
+        addNotification(`Ошибка получения погоды для: ${name}`);
       });
   };
 
@@ -84,6 +103,7 @@ export const useWeatherService = () => {
       .then((data: IArea) => {
         data?.name && setDefaultAreas(data?.name);
         Object.assign(weatherData, toRefs(reactive(data)));
+        addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
         setTimeout(() => {
@@ -95,6 +115,8 @@ export const useWeatherService = () => {
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
+
+        addNotification(`Ошибка получения погоды по координатам`);
       });
   };
 
