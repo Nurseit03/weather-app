@@ -7,6 +7,7 @@
         <div class="header__switchers">
           <LocaleSwitcher />
           <ThemeSwitcher />
+          <PopupNotifications />
         </div>
       </q-toolbar>
     </q-header>
@@ -18,13 +19,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.vue';
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue';
+import PopupNotifications from '@/components/ui/PopupNotifications.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { LocaleSwitcher, ThemeSwitcher },
+  components: { LocaleSwitcher, ThemeSwitcher, PopupNotifications },
 });
 </script>
 
