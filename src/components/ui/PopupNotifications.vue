@@ -18,7 +18,7 @@
           >
             <div class="q-item__section text-caption text-left text-bold">
               <q-item-section>{{ notification?.message }}</q-item-section>
-              <q-item-section left class="notification-date">{{
+              <q-item-section left :class="{ 'notification-date': true, 'text-smoke': $q.dark.isActive }">{{
                 formatDate(notification?.date)
               }}</q-item-section>
             </div>
@@ -120,5 +120,9 @@ export default {
 .notification-date {
   margin: 0;
   color: rgba(0, 0, 0, 0.6);
+}
+
+.text-smoke {
+  color: rgba(255, 255, 255, 0.6);
 }
 </style>
