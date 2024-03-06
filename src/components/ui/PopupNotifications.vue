@@ -11,16 +11,21 @@
           :offset="280"
           :scroll-target="scrollTargetRef"
           :can-load="canLoadMore"
-          >
+        >
           <q-item
             v-for="notification in displayedNotifications"
             :key="notification.id"
           >
             <div class="q-item__section text-caption text-left text-bold">
               <q-item-section>{{ notification?.message }}</q-item-section>
-              <q-item-section left :class="{ 'notification-date': true, 'text-smoke': $q.dark.isActive }">{{
-                formatDate(notification?.date)
-              }}</q-item-section>
+              <q-item-section
+                left
+                :class="{
+                  'notification-date': true,
+                  'text-smoke': $q.dark.isActive,
+                }"
+                >{{ formatDate(notification?.date) }}</q-item-section
+              >
             </div>
           </q-item>
           <template v-slot:loading v-if="canLoadMore">
@@ -30,7 +35,12 @@
           </template>
         </q-infinite-scroll>
         <q-item-label class="text-center">
-          <q-btn :label="$t('Close')" v-close-popup @click="onCloseMenu" class="full-width"/>
+          <q-btn
+            :label="$t('Close')"
+            v-close-popup
+            @click="onCloseMenu"
+            class="full-width"
+          />
         </q-item-label>
       </q-list>
       <q-item v-else>
@@ -51,7 +61,7 @@ export default {
   setup() {
     const $store = useStore();
     const scrollTargetRef = ref(null);
-    
+
     const initOffset = 3;
     const offset = ref(initOffset);
 
@@ -62,7 +72,7 @@ export default {
 
     const formatDate = (date: Date): string => {
       return format(date, 'dd.MM.yyyy hh:mm');
-    }
+    };
 
     const displayedNotifications = computed(() =>
       notifications.value.slice(0, offset.value)
@@ -86,7 +96,7 @@ export default {
           loadMoreNotifications();
           done();
         }, 2000);
-      }else {
+      } else {
         done();
       }
     };
