@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { QSpinnerFacebook, useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 import { onMounted } from 'vue';
 import { onBeforeMount } from 'vue';
 import { defineComponent } from 'vue';
@@ -16,13 +16,7 @@ export default defineComponent({
     $q.dark.set(false);
 
     const showLoading = () => {
-      $q.loading.show({
-        spinner: QSpinnerFacebook,
-        spinnerColor: 'black',
-        spinnerSize: 140,
-        backgroundColor: 'inherit',
-        messageColor: 'black',
-      });
+      $q.loading.show();
     };
 
     const hideLoading = () => {

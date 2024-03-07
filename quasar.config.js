@@ -127,6 +127,14 @@ module.exports = configure(function (/* ctx */) {
           info: '#31CCEC',
           warning: '#F2C037',
         },
+
+        loading:{
+          spinner: 'QSpinnerFacebook',
+          spinnerColor: 'black',
+          spinnerSize: 140,
+          backgroundColor: 'inherit',
+          messageColor: 'black',
+        }
       },
 
       // iconSet: 'material-icons', // Quasar icon set
