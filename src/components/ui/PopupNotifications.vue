@@ -60,7 +60,7 @@ import { format } from 'date-fns';
 export default {
   setup() {
     const $store = useStore();
-    const scrollTargetRef = ref(null);
+    const scrollTargetRef = ref<Element | string | undefined>(undefined);
 
     const initOffset = 3;
     const offset = ref(initOffset);
@@ -90,12 +90,12 @@ export default {
       offset.value = initOffset;
     };
 
-    const onLoadMenu = (index: number, done: any) => {
+    const onLoadMenu = (index: number, done: () => void) => {
       if (canLoadMore.value) {
         setTimeout(() => {
           loadMoreNotifications();
           done();
-        }, 2000);
+        }, 1000);
       } else {
         done();
       }
@@ -127,6 +127,7 @@ export default {
   max-width: 240px !important;
   max-height: 280px !important;
 }
+
 .notification-date {
   margin: 0;
   color: rgba(0, 0, 0, 0.6);

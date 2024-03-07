@@ -58,7 +58,7 @@ module.exports = configure(function (/* ctx */) {
           '@': path.resolve(__dirname, './src'),
         });
       },
-      
+
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node20',
@@ -120,7 +120,7 @@ module.exports = configure(function (/* ctx */) {
           accent: '#9C27B0',
 
           dark: '#1d1d1d',
-          'dark-page': '#121212',
+          'dark-page': '#323435',
 
           positive: '#21BA45',
           negative: '#C10015',
@@ -140,10 +140,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Loading',
-        'Dialog'
-      ],
+      plugins: ['Loading', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations
