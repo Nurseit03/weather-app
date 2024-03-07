@@ -4,23 +4,27 @@
 
 <script lang="ts">
 import { useQuasar } from 'quasar';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { onBeforeMount } from 'vue';
 import { defineComponent } from 'vue';
+import { mapActions, useStore } from 'vuex';
 
 export default defineComponent({
   name: 'App',
   setup() {
     const $q = useQuasar();
+    const $store = useStore();
 
     $q.dark.set(false);
 
     const showLoading = () => {
-      $q.loading.show();
+      $store.dispatch('setLoading', true);
+      // $q.loading.show();
     };
 
     const hideLoading = () => {
-      $q.loading.hide();
+      $store.dispatch('setLoading', false);
+      // $q.loading.hide();
     };
 
     onBeforeMount(() => {

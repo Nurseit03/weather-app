@@ -1,10 +1,6 @@
 <template>
   <div class="custom-loader">
-    <Vue3Lottie
-      :animationData="animation"
-      :width="width"
-      :height="height"
-    />
+    <Vue3Lottie :animationData="animation" :width="width" :height="height" />
   </div>
 </template>
 
@@ -21,9 +17,13 @@ const { animation, width, height } = defineProps([
 
 <style scoped>
 .custom-loader {
+  position: absolute;
   display: flex;
-  justify-content: center;
   align-items: center;
+  left: 0;
+  top: 0;
+  width: 100%;
   height: 100%;
+  background-color: rgba(105, 105, 100, 0.534);
 }
 </style>
