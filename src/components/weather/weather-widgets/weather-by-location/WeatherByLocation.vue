@@ -25,14 +25,16 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'WeatherByLocation',
   props: {
     getUserCoordinates: {
-      type: Function,
+      type: Function as () => any,
       required: true,
     },
   },
-};
+});
 </script>

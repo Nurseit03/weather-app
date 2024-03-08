@@ -1,3 +1,3 @@
-import PageLoading from './page-loading.json'
+import PageLoading from './page-loading.json';
 
 export { PageLoading };
