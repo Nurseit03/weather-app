@@ -32,7 +32,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'store'],
+    boot: ['i18n', 'store', 'vue3-lottie'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.css'],
@@ -126,6 +126,14 @@ module.exports = configure(function (/* ctx */) {
           negative: '#C10015',
           info: '#31CCEC',
           warning: '#F2C037',
+        },
+
+        loading: {
+          spinner: 'QSpinnerFacebook',
+          spinnerColor: 'black',
+          spinnerSize: 140,
+          backgroundColor: 'inherit',
+          messageColor: 'black',
         },
       },
 

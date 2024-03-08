@@ -16,6 +16,7 @@
       <router-view />
     </q-page-container>
   </q-layout>
+  <PagePreloadAnimation />
 </template>
 
 <script lang="ts">
@@ -23,10 +24,16 @@ import { defineComponent } from 'vue';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.vue';
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue';
 import PopupNotifications from '@/components/ui/PopupNotifications.vue';
+import PagePreloadAnimation from '@/components/animations/PagePreloadAnimation.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { LocaleSwitcher, ThemeSwitcher, PopupNotifications },
+  components: {
+    LocaleSwitcher,
+    ThemeSwitcher,
+    PopupNotifications,
+    PagePreloadAnimation,
+  },
 });
 </script>
 
