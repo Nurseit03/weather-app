@@ -1,6 +1,10 @@
 import { Module } from 'vuex';
 
-const preloaderModule: Module<any, any> = {
+interface PreloaderState {
+  isLoading: boolean;
+}
+
+const preloaderModule: Module<PreloaderState, any> = {
   state: {
     isLoading: false,
   },
@@ -18,7 +22,6 @@ const preloaderModule: Module<any, any> = {
       commit('toggle', payload);
     },
     setLoading({ commit }, payload: boolean) {
-      console.log(1111);
       commit('setLoading', payload);
     },
   },

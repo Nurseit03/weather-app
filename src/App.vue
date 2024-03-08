@@ -4,10 +4,10 @@
 
 <script lang="ts">
 import { useQuasar } from 'quasar';
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { onBeforeMount } from 'vue';
 import { defineComponent } from 'vue';
-import { mapActions, useStore } from 'vuex';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'App',
@@ -19,12 +19,10 @@ export default defineComponent({
 
     const showLoading = () => {
       $store.dispatch('setLoading', true);
-      // $q.loading.show();
     };
 
     const hideLoading = () => {
       $store.dispatch('setLoading', false);
-      // $q.loading.hide();
     };
 
     onBeforeMount(() => {
@@ -34,7 +32,7 @@ export default defineComponent({
     onMounted(() => {
       setTimeout(() => {
         hideLoading();
-      }, 2000);
+      }, 3000);
     });
   },
 });

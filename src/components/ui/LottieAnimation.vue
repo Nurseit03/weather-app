@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-loader">
-    <Vue3Lottie :animationData="animation" :width="width" :height="height" />
+  <div class="custom-loader" :style="{ backgroundColor: bgColor }">
+    <Vue3Lottie :animationData="animation" :width="width" :height="height" :delay="delay"/>
   </div>
 </template>
 
@@ -8,10 +8,12 @@
 import { defineProps } from 'vue';
 import { Vue3Lottie } from 'vue3-lottie';
 
-const { animation, width, height } = defineProps([
+const { animation, width, height, bgColor = 'inherit', delay = Infinity } = defineProps([
   'animation',
   'width',
   'height',
+  'bgColor',
+  'delay',
 ]);
 </script>
 
@@ -24,6 +26,5 @@ const { animation, width, height } = defineProps([
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(105, 105, 100, 0.534);
 }
 </style>

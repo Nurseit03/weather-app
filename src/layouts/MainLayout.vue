@@ -16,7 +16,7 @@
       <router-view />
     </q-page-container>
   </q-layout>
-  <LottieAnimation :animation="PageLoading" :width="200" :height="200" />
+  <PagePreloadAnimation />
 </template>
 
 <script lang="ts">
@@ -24,21 +24,15 @@ import { defineComponent } from 'vue';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.vue';
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue';
 import PopupNotifications from '@/components/ui/PopupNotifications.vue';
-import { PageLoading } from '@/animations/weather';
-import LottieAnimation from '@/components/ui/LottieAnimation.vue';
+import PagePreloadAnimation from '@/components/animations/PagePreloadAnimation.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-  data: () => {
-    return {
-      PageLoading,
-    };
-  },
   components: {
     LocaleSwitcher,
     ThemeSwitcher,
     PopupNotifications,
-    LottieAnimation,
+    PagePreloadAnimation,
   },
 });
 </script>
