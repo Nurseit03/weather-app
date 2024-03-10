@@ -1,7 +1,6 @@
 import { useQuasar } from 'quasar';
 import { ref, reactive, watch, toRefs, nextTick } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
-import { fetchCountries } from '@/api/areas/countries';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { IWeather } from '@/models/weather';
@@ -71,7 +70,9 @@ export const useWeatherService = () => {
 
     WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
       .then((data: IArea) => {
+        data?.name && setDefaultAreas(data?.name);
         Object.assign(weatherData, toRefs(reactive(data)));
+        $store.dispatch('setWeatherData', data);
         addNotification(`Погода успешно получена для: ${name}`);
       })
       .finally(() => {
@@ -103,6 +104,7 @@ export const useWeatherService = () => {
       .then((data: IArea) => {
         data?.name && setDefaultAreas(data?.name);
         Object.assign(weatherData, toRefs(reactive(data)));
+        $store.dispatch('setWeatherData', data);
         addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
@@ -120,9 +122,10 @@ export const useWeatherService = () => {
       });
   };
 
-  const onLocaleChange = () => {
+  const onLocaleChange = async() => {
     if (locationData.value?.name) {
-      getWeatherByLocationName(locationData.value.name);
+      await setDefaultAreas(locationData.value?.name);
+      await getWeatherByLocationName(locationData.value.name);
     } else if (userCoordinates.latitude && userCoordinates.longitude) {
       getWeatherByCoordinates(
         userCoordinates.latitude,
@@ -132,11 +135,12 @@ export const useWeatherService = () => {
   };
 
   const setDefaultAreas = async (name: string) => {
-    const data = await fetchCountries().then((data) => data.json());
-    const parents = findLinkedAreasByName(name, data);
+    const countriesData = $store.getters.getCountriesData;
+    const parents = findLinkedAreasByName(name, countriesData);
 
     await nextTick(() => {
       defaultAreas.value = parents;
+      $store.dispatch('setSelectedAreas', parents);
     });
   };
 
