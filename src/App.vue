@@ -18,11 +18,11 @@ export default defineComponent({
     $q.dark.set(false);
 
     const showLoading = () => {
-      $store.dispatch('setLoading', true);
+      $store.dispatch('setPageIsLoading', true);
     };
 
     const hideLoading = () => {
-      $store.dispatch('setLoading', false);
+      $store.dispatch('setPageIsLoading', false);
     };
 
     onBeforeMount(() => {
