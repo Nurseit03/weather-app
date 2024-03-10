@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import CountrySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CountrySelect.vue';
-import StateSelect from './components/select/StateSelect.vue';
+import StateSelect from '@/components/weather/weather-widgets/weather-by-select/components/select/StateSelect.vue';
 import CitySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CitySelect.vue';
 import { AreaType, IArea } from '@/models/area';
 
@@ -51,6 +51,7 @@ export default {
   methods: {
     handleSelectCountry(country: IArea) {
       this.selectedCountry = country;
+      this.$emit('onLocationSelected', country);
     },
     handleSelectState(state: IArea) {
       this.selectedState = state;
@@ -79,21 +80,25 @@ export default {
       return this.defaultAreas?.country ?? null;
     },
     stateDefaultArea(): IArea | null {
-      return this.selectedCountry ? null : this.defaultAreas?.state ?? null;
+      return this.defaultAreas?.state ?? null;
     },
     cityDefaultArea(): IArea | null {
-      return this.selectedState ? null : this.defaultAreas?.city ?? null;
+      return this.defaultAreas?.city ?? null;
     },
     showState(): boolean {
       return !!(
         (this.selectedCountry?.areas &&
-          this.selectedCountry.areas.length > 0) ||
+          this.selectedCountry?.areas?.length > 0) ||
+        (this.defaultAreas?.country?.areas &&
+          this.defaultAreas?.country?.areas.length > 0) ||
         this.defaultAreas?.state
       );
     },
     showCity(): boolean {
       return !!(
-        (this.selectedState?.areas && this.selectedState.areas.length > 0) ||
+        (this.selectedState?.areas && this.selectedState?.areas?.length > 0) ||
+        (this.defaultAreas?.state?.areas &&
+          this.defaultAreas?.state?.areas.length > 0) ||
         this.defaultAreas?.city
       );
     },

@@ -1,7 +1,6 @@
 import { useQuasar } from 'quasar';
-import { ref, reactive, watch, toRefs, nextTick } from 'vue';
+import { ref, reactive, watch, toRefs, nextTick, computed } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
-import { fetchCountries } from '@/api/areas/countries';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { IWeather } from '@/models/weather';
@@ -10,31 +9,39 @@ import { AreaType, IArea } from '@/models/area';
 export const useWeatherService = () => {
   const $q = useQuasar();
   const $store = useStore();
-  const { locale, t } = useI18n();
-
-  const defaultAreas = ref<AreaType>({});
-  const weatherData = reactive<IWeather>({});
-  const locationData = ref<IArea>({});
-  const isFetching = ref(false);
+  const { t } = useI18n();
 
   const userCoordinates = reactive({
     latitude: null as number | null,
     longitude: null as number | null,
   });
 
-  const addNotification = (message: string) => {
+  const addNotification = async (message: string) => {
     const notification = {
       id: Date.now(),
       date: new Date(),
       message,
     };
 
-    $store.dispatch('addNotification', notification);
+    await $store.dispatch('addNotification', notification);
+  };
+
+  const setWeatherData = async (data: IWeather) => {
+    await $store.dispatch('setWeatherData', data);
+  };
+
+  const setSelectedAreas = async (areas: AreaType) => {
+    await $store.dispatch('setSelectedAreas', areas);
+  };
+
+  const setWeatherIsFetching = async (value: boolean) => {
+    await $store.dispatch('setWeatherIsFetching', value);
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
-    locationData.value = selectedArea;
-    selectedArea?.name && getWeatherByLocationName(selectedArea.name);
+    if (selectedArea?.name && selectedArea.parent_id != null) {
+      getWeatherByLocationName(selectedArea.name);
+    }
   };
 
   const getUserCoordinates = () => {
@@ -67,76 +74,66 @@ export const useWeatherService = () => {
   };
 
   const getWeatherByLocationName = async (name: string) => {
-    isFetching.value = true;
+    await setWeatherIsFetching(true);
 
-    WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
-      .then((data: IArea) => {
-        Object.assign(weatherData, toRefs(reactive(data)));
-        addNotification(`Погода успешно получена для: ${name}`);
+    await WeatherApi.getWeatherByLocationName(name)
+      .then(async (data: IWeather) => {
+        data?.name && (await setDefaultAreas(data?.name));
+
+        await setWeatherData(data);
+        await addNotification(`Погода успешно получена для: ${name}`);
       })
       .finally(() => {
-        setTimeout(() => {
-          isFetching.value = false;
+        setTimeout(async () => {
+          await setWeatherIsFetching(false);
         }, 1200);
       })
-      .catch((error: any) => {
+      .catch(async (error: any) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        addNotification(`Ошибка получения погоды для: ${name}`);
+        await addNotification(`Ошибка получения погоды для: ${name}`);
       });
   };
 
-  const getWeatherByCoordinates = (
+  const getWeatherByCoordinates = async (
     latitude: number | null,
     longitude: number | null
   ) => {
-    isFetching.value = true;
+    await setWeatherIsFetching(true);
 
     WeatherApi.getWeatherByCoordinates(
       latitude,
-      longitude,
-      locale.value.slice(0, 2)
-    )
-      .then((data: IArea) => {
-        data?.name && setDefaultAreas(data?.name);
-        Object.assign(weatherData, toRefs(reactive(data)));
-        addNotification(`Погода успешно получена для: ${data?.name}`);
+      longitude    )
+      .then(async (data: IWeather) => {
+        data?.name && (await setDefaultAreas(data?.name));
+
+        await setWeatherData(data);
+        await addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
-        setTimeout(() => {
-          isFetching.value = false;
+        setTimeout(async () => {
+          await setWeatherIsFetching(false);
         }, 1000);
       })
-      .catch((error: any) => {
+      .catch(async (error: any) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        addNotification(`Ошибка получения погоды по координатам`);
+        await addNotification(`Ошибка получения погоды по координатам`);
       });
   };
 
-  const onLocaleChange = () => {
-    if (locationData.value?.name) {
-      getWeatherByLocationName(locationData.value.name);
-    } else if (userCoordinates.latitude && userCoordinates.longitude) {
-      getWeatherByCoordinates(
-        userCoordinates.latitude,
-        userCoordinates.longitude
-      );
-    }
-  };
-
   const setDefaultAreas = async (name: string) => {
-    const data = await fetchCountries().then((data) => data.json());
-    const parents = findLinkedAreasByName(name, data);
+    const countriesData = $store.getters.getCountriesData;
+    const parents = findLinkedAreasByName(name, countriesData);
 
-    await nextTick(() => {
-      defaultAreas.value = parents;
+    await nextTick(async () => {
+      await setSelectedAreas(parents);
     });
   };
 
@@ -192,15 +189,8 @@ export const useWeatherService = () => {
     }
   };
 
-  watch(() => locale.value, onLocaleChange);
-
   return {
-    weatherData,
-    locationData,
-    isFetching,
     onLocationSelected,
     getUserCoordinates,
-    findLinkedAreasByName,
-    defaultAreas,
   };
 };

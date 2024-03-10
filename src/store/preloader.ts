@@ -1,33 +1,33 @@
 import { Module } from 'vuex';
 
 interface PreloaderState {
-  isLoading: boolean;
+  pageIsLoading: boolean;
 }
 
 const preloaderModule: Module<PreloaderState, any> = {
   state: {
-    isLoading: false,
+    pageIsLoading: false,
   },
   mutations: {
     toggle(state): boolean {
-      return (state.isLoading = !state.isLoading);
+      return (state.pageIsLoading = !state.pageIsLoading);
     },
 
-    setLoading(state, payload: boolean): boolean {
-      return (state.isLoading = payload);
+    setPageIsLoading(state, payload: boolean): boolean {
+      return (state.pageIsLoading = payload);
     },
   },
   actions: {
     toggle({ commit }, payload: boolean) {
       commit('toggle', payload);
     },
-    setLoading({ commit }, payload: boolean) {
-      commit('setLoading', payload);
+    setPageIsLoading({ commit }, payload: boolean) {
+      commit('setPageIsLoading', payload);
     },
   },
   getters: {
-    isLoading(state): boolean {
-      return state.isLoading;
+    getPageIsLoading(state): boolean {
+      return state.pageIsLoading;
     },
   },
 };

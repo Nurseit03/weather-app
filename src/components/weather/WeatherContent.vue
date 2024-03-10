@@ -1,11 +1,10 @@
 <template>
   <div class="q-pa-md content">
     <WeatherBySelect @onLocationSelected="onLocationSelected" :defaultAreas="defaultAreas" />
-    <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
+    <WeatherCardSkeleton v-if="weatherIsFetching" :customClass="'fade-in'" />
     <WeatherCard
-      v-if="weatherData?.main && !isFetching"
+      v-if="weatherData?.main && !weatherIsFetching"
       :weatherData="weatherData"
-      :locationData="locationData"
       :customClass="'fade-in'"
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
@@ -19,14 +18,18 @@ import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-sel
 import WeatherCardSkeleton from '@/components/weather/weather-card/WeatherCardSkeleton.vue';
 import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import { useWeatherService } from '@/services/weatherService';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+
+const $store = useStore();
+
+const weatherData = computed(() =>$store.getters.getWeatherData);
+const defaultAreas = computed(() => $store.getters.getSelectedAreas);
+const weatherIsFetching = computed(() => $store.getters.getWeatherIsFetching);
 
 const {
-  weatherData,
-  locationData,
-  isFetching,
   onLocationSelected,
   getUserCoordinates,
-  defaultAreas,
 } = useWeatherService();
 </script>
 

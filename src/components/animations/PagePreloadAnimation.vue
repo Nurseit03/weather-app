@@ -16,7 +16,7 @@ import LottieAnimation from '@/components/ui/LottieAnimation.vue';
 
 const $store = useStore();
 
-const isLoading = computed(() => $store.getters.isLoading);
+const isLoading = computed(() => $store.getters.getPageIsLoading);
 </script>
 
 <style>
