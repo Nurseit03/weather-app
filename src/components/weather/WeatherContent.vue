@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md content">
     <WeatherBySelect @onLocationSelected="onLocationSelected" :defaultAreas="defaultAreas" />
-    <WeatherCardSkeleton v-if="isFetching" :customClass="'fade-in'" />
+    <WeatherCardSkeleton v-if="weatherIsFetching" :customClass="'fade-in'" />
     <WeatherCard
-      v-if="weatherData?.main && !isFetching"
+      v-if="weatherData?.main && !weatherIsFetching"
       :weatherData="weatherData"
       :locationName="locationName"
       :customClass="'fade-in'"
@@ -26,10 +26,10 @@ const $store = useStore();
 
 const weatherData = computed(() =>$store.getters.getWeatherData);
 const defaultAreas = computed(() => $store.getters.getSelectedAreas);
+const weatherIsFetching = computed(() => $store.getters.getWeatherIsFetching);
 
 const {
   locationName,
-  isFetching,
   onLocationSelected,
   getUserCoordinates,
 } = useWeatherService();

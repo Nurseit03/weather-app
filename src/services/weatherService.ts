@@ -12,7 +12,6 @@ export const useWeatherService = () => {
   const { locale, t } = useI18n();
 
   const locationName = ref<string | null>();
-  const isFetching = ref(false);
 
   const userCoordinates = reactive({
     latitude: null as number | null,
@@ -35,6 +34,10 @@ export const useWeatherService = () => {
   
   const setSelectedAreas = async (areas: AreaType) => {
     await $store.dispatch('setSelectedAreas', areas);
+  };
+
+  const setWeatherIsFetching = async (value: boolean) => {
+    await $store.dispatch('setWeatherIsFetching', value);
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
@@ -72,7 +75,7 @@ export const useWeatherService = () => {
   };
 
   const getWeatherByLocationName = async (name: string) => {
-    isFetching.value = true;
+    await setWeatherIsFetching(true)
 
     await WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
       .then(async (data: IWeather) => {
@@ -81,8 +84,8 @@ export const useWeatherService = () => {
         await addNotification(`Погода успешно получена для: ${name}`);
       })
       .finally(() => {
-        setTimeout(() => {
-          isFetching.value = false;
+        setTimeout(async() => {
+          await setWeatherIsFetching(false)
         }, 1200);
       })
       .catch(async (error: any) => {
@@ -95,11 +98,11 @@ export const useWeatherService = () => {
       });
   };
 
-  const getWeatherByCoordinates = (
+  const getWeatherByCoordinates = async (
     latitude: number | null,
     longitude: number | null
   ) => {
-    isFetching.value = true;
+    await setWeatherIsFetching(true)
 
     WeatherApi.getWeatherByCoordinates(
       latitude,
@@ -112,8 +115,8 @@ export const useWeatherService = () => {
         await addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
-        setTimeout(() => {
-          isFetching.value = false;
+        setTimeout(async() => {
+          await setWeatherIsFetching(false)
         }, 1000);
       })
       .catch(async (error: any) => {
@@ -203,7 +206,6 @@ export const useWeatherService = () => {
 
   return {
     locationName,
-    isFetching,
     onLocationSelected,
     getUserCoordinates,
   };

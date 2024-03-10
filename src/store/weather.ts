@@ -6,6 +6,7 @@ interface WeatherState {
   weatherData: IWeather;
   selectedAreas: AreaType;
   countriesData: IArea[];
+  weatherIsFetching: boolean;
 }
 
 const weatherModule: Module<WeatherState, any> = {
@@ -13,6 +14,7 @@ const weatherModule: Module<WeatherState, any> = {
     weatherData: {},
     selectedAreas: {},
     countriesData: [],
+    weatherIsFetching: false,
   },
   mutations: {
     setWeatherData(state, data) {
@@ -24,6 +26,9 @@ const weatherModule: Module<WeatherState, any> = {
     setCountriesData(state, data) {
       return (state.countriesData = data);
     },
+    setWeatherIsFetching(state, value: boolean): boolean {
+      return (state.weatherIsFetching = value);
+    },
   },
   actions: {
     setWeatherData({ commit }, data) {
@@ -32,6 +37,9 @@ const weatherModule: Module<WeatherState, any> = {
     setSelectedAreas({ commit }, areas) {
       commit('setSelectedAreas', areas);
     },
+    setWeatherIsFetching({commit}, value) {
+      commit('setWeatherIsFetching', value)
+    }
   },
   getters: {
     getWeatherData(state) {
@@ -42,6 +50,9 @@ const weatherModule: Module<WeatherState, any> = {
     },
     getCountriesData(state) {
       return state.countriesData;
+    },
+    getWeatherIsFetching(state) {
+      return state.weatherIsFetching;
     },
   },
 };
