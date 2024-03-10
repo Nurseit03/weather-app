@@ -5,7 +5,6 @@
     <WeatherCard
       v-if="weatherData?.main && !weatherIsFetching"
       :weatherData="weatherData"
-      :locationName="locationName"
       :customClass="'fade-in'"
     />
     <div class="text-h6 text-weight-light">{{ $t('or') }}</div>
@@ -29,7 +28,6 @@ const defaultAreas = computed(() => $store.getters.getSelectedAreas);
 const weatherIsFetching = computed(() => $store.getters.getWeatherIsFetching);
 
 const {
-  locationName,
   onLocationSelected,
   getUserCoordinates,
 } = useWeatherService();

@@ -2,7 +2,7 @@
   <q-card :class="['my-card', customClass]">
     <q-card-section class="col text-center">
       <div
-        v-if="weatherData?.name || locationData?.name"
+        v-if="weatherData?.name"
         class="col text-center"
       >
         <div class="text-h5 text-weight-light">
@@ -54,10 +54,6 @@ export default {
       type: Object as () => IWeather,
       required: true,
     },
-    locationData: {
-      type: Object as () => IArea,
-      required: true,
-    },
   },
   components: {
     WeatherCardDetails,
@@ -78,7 +74,7 @@ export default {
       );
     },
     weatherLocation(): string {
-      const cityName = this.weatherData?.name || this.locationData?.name || '';
+      const cityName = this.weatherData?.name || null;
       const locationDescription = cityName
         ? 'Weather in'
         : 'Weather in your city';

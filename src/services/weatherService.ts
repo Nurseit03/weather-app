@@ -1,5 +1,5 @@
 import { useQuasar } from 'quasar';
-import { ref, reactive, watch, toRefs, nextTick } from 'vue';
+import { ref, reactive, watch, toRefs, nextTick, computed } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
@@ -11,12 +11,12 @@ export const useWeatherService = () => {
   const $store = useStore();
   const { locale, t } = useI18n();
 
-  const locationName = ref<string | null>();
-
   const userCoordinates = reactive({
     latitude: null as number | null,
     longitude: null as number | null,
   });
+
+  const lastArea = computed(() => findLastItemInObject($store.getters.getSelectedAreas));
 
   const addNotification = async (message: string) => {
     const notification = {
@@ -31,7 +31,7 @@ export const useWeatherService = () => {
   const setWeatherData = async (data: IWeather) => {
     await $store.dispatch('setWeatherData', data);
   };
-  
+
   const setSelectedAreas = async (areas: AreaType) => {
     await $store.dispatch('setSelectedAreas', areas);
   };
@@ -41,8 +41,9 @@ export const useWeatherService = () => {
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
-    locationName.value = selectedArea.name;
-    selectedArea?.name && getWeatherByLocationName(selectedArea.name);
+    if (selectedArea?.name && selectedArea.parent_id != null) {
+      getWeatherByLocationName(selectedArea.name);
+    }
   };
 
   const getUserCoordinates = () => {
@@ -75,17 +76,18 @@ export const useWeatherService = () => {
   };
 
   const getWeatherByLocationName = async (name: string) => {
-    await setWeatherIsFetching(true)
+    await setWeatherIsFetching(true);
 
     await WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
       .then(async (data: IWeather) => {
-        data?.name && await setDefaultAreas(data?.name);
+        data?.name && (await setDefaultAreas(data?.name));
+
         await setWeatherData(data);
         await addNotification(`Погода успешно получена для: ${name}`);
       })
       .finally(() => {
-        setTimeout(async() => {
-          await setWeatherIsFetching(false)
+        setTimeout(async () => {
+          await setWeatherIsFetching(false);
         }, 1200);
       })
       .catch(async (error: any) => {
@@ -102,7 +104,7 @@ export const useWeatherService = () => {
     latitude: number | null,
     longitude: number | null
   ) => {
-    await setWeatherIsFetching(true)
+    await setWeatherIsFetching(true);
 
     WeatherApi.getWeatherByCoordinates(
       latitude,
@@ -110,13 +112,14 @@ export const useWeatherService = () => {
       locale.value.slice(0, 2)
     )
       .then(async (data: IWeather) => {
-        data?.name && await setDefaultAreas(data?.name);
+        data?.name && (await setDefaultAreas(data?.name));
+
         await setWeatherData(data);
         await addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
-        setTimeout(async() => {
-          await setWeatherIsFetching(false)
+        setTimeout(async () => {
+          await setWeatherIsFetching(false);
         }, 1000);
       })
       .catch(async (error: any) => {
@@ -129,10 +132,10 @@ export const useWeatherService = () => {
       });
   };
 
-  const onLocaleChange = async() => {
-    if (locationName.value) {
-      await setDefaultAreas(locationName.value);
-      await getWeatherByLocationName(locationName.value);
+  const onLocaleChange = async () => {
+    if (lastArea.value) {
+      await setDefaultAreas(lastArea.value);
+      await getWeatherByLocationName(lastArea.value);
     } else if (userCoordinates.latitude && userCoordinates.longitude) {
       getWeatherByCoordinates(
         userCoordinates.latitude,
@@ -149,6 +152,13 @@ export const useWeatherService = () => {
       await setSelectedAreas(parents);
     });
   };
+
+  function findLastItemInObject(object: Record<string, any>) {
+    const keys = Object.keys(object);
+    const lastKey = keys[keys.length - 1];
+    const lastObject = object[lastKey];
+    return lastObject;
+  }
 
   const findLinkedAreasByName = (
     searchedName: string,
@@ -205,7 +215,6 @@ export const useWeatherService = () => {
   watch(() => locale.value, onLocaleChange);
 
   return {
-    locationName,
     onLocationSelected,
     getUserCoordinates,
   };

@@ -51,6 +51,7 @@ export default {
   methods: {
     handleSelectCountry(country: IArea) {
       this.selectedCountry = country;
+      this.$emit('onLocationSelected', country);
     },
     handleSelectState(state: IArea) {
       this.selectedState = state;
@@ -87,13 +88,17 @@ export default {
     showState(): boolean {
       return !!(
         (this.selectedCountry?.areas &&
-          this.selectedCountry.areas.length > 0) ||
+          this.selectedCountry?.areas?.length > 0) ||
+        (this.defaultAreas?.country?.areas &&
+          this.defaultAreas?.country?.areas.length > 0) ||
         this.defaultAreas?.state
       );
     },
     showCity(): boolean {
       return !!(
-        (this.selectedState?.areas && this.selectedState.areas.length > 0) ||
+        (this.selectedState?.areas && this.selectedState?.areas?.length > 0) ||
+        (this.defaultAreas?.state?.areas &&
+          this.defaultAreas?.state?.areas.length > 0) ||
         this.defaultAreas?.city
       );
     },
