@@ -19,14 +19,19 @@ import WeatherBySelect from '@/components/weather/weather-widgets/weather-by-sel
 import WeatherCardSkeleton from '@/components/weather/weather-card/WeatherCardSkeleton.vue';
 import WeatherCard from '@/components/weather/weather-card/WeatherCard.vue';
 import { useWeatherService } from '@/services/weatherService';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+
+const $store = useStore();
+
+const weatherData = computed(() =>$store.getters.getWeatherData);
+const defaultAreas = computed(() => $store.getters.getSelectedAreas);
 
 const {
-  weatherData,
   locationData,
   isFetching,
   onLocationSelected,
   getUserCoordinates,
-  defaultAreas,
 } = useWeatherService();
 </script>
 

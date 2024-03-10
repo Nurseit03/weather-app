@@ -11,8 +11,6 @@ export const useWeatherService = () => {
   const $store = useStore();
   const { locale, t } = useI18n();
 
-  const defaultAreas = ref<AreaType>({});
-  const weatherData = reactive<IWeather>({});
   const locationData = ref<IArea>({});
   const isFetching = ref(false);
 
@@ -21,14 +19,22 @@ export const useWeatherService = () => {
     longitude: null as number | null,
   });
 
-  const addNotification = (message: string) => {
+  const addNotification = async (message: string) => {
     const notification = {
       id: Date.now(),
       date: new Date(),
       message,
     };
 
-    $store.dispatch('addNotification', notification);
+    await $store.dispatch('addNotification', notification);
+  };
+
+  const setWeatherData = async (data: IWeather) => {
+    await $store.dispatch('setWeatherData', data);
+  };
+  
+  const setSelectedAreas = async (areas: AreaType) => {
+    await $store.dispatch('setSelectedAreas', areas);
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
@@ -68,25 +74,24 @@ export const useWeatherService = () => {
   const getWeatherByLocationName = async (name: string) => {
     isFetching.value = true;
 
-    WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
-      .then((data: IArea) => {
-        data?.name && setDefaultAreas(data?.name);
-        Object.assign(weatherData, toRefs(reactive(data)));
-        $store.dispatch('setWeatherData', data);
-        addNotification(`Погода успешно получена для: ${name}`);
+    await WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
+      .then(async (data: IWeather) => {
+        data?.name && await setDefaultAreas(data?.name);
+        await setWeatherData(data);
+        await addNotification(`Погода успешно получена для: ${name}`);
       })
       .finally(() => {
         setTimeout(() => {
           isFetching.value = false;
         }, 1200);
       })
-      .catch((error: any) => {
+      .catch(async (error: any) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        addNotification(`Ошибка получения погоды для: ${name}`);
+        await addNotification(`Ошибка получения погоды для: ${name}`);
       });
   };
 
@@ -101,24 +106,23 @@ export const useWeatherService = () => {
       longitude,
       locale.value.slice(0, 2)
     )
-      .then((data: IArea) => {
-        data?.name && setDefaultAreas(data?.name);
-        Object.assign(weatherData, toRefs(reactive(data)));
-        $store.dispatch('setWeatherData', data);
-        addNotification(`Погода успешно получена для: ${data?.name}`);
+      .then(async (data: IWeather) => {
+        data?.name && await setDefaultAreas(data?.name);
+        await setWeatherData(data);
+        await addNotification(`Погода успешно получена для: ${data?.name}`);
       })
       .finally(() => {
         setTimeout(() => {
           isFetching.value = false;
         }, 1000);
       })
-      .catch((error: any) => {
+      .catch(async (error: any) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        addNotification(`Ошибка получения погоды по координатам`);
+        await addNotification(`Ошибка получения погоды по координатам`);
       });
   };
 
@@ -138,9 +142,8 @@ export const useWeatherService = () => {
     const countriesData = $store.getters.getCountriesData;
     const parents = findLinkedAreasByName(name, countriesData);
 
-    await nextTick(() => {
-      defaultAreas.value = parents;
-      $store.dispatch('setSelectedAreas', parents);
+    await nextTick(async () => {
+      await setSelectedAreas(parents);
     });
   };
 
@@ -199,12 +202,9 @@ export const useWeatherService = () => {
   watch(() => locale.value, onLocaleChange);
 
   return {
-    weatherData,
     locationData,
     isFetching,
     onLocationSelected,
     getUserCoordinates,
-    findLinkedAreasByName,
-    defaultAreas,
   };
 };

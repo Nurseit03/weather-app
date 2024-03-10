@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import CountrySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CountrySelect.vue';
-import StateSelect from './components/select/StateSelect.vue';
+import StateSelect from '@/components/weather/weather-widgets/weather-by-select/components/select/StateSelect.vue';
 import CitySelect from '@/components/weather/weather-widgets/weather-by-select/components/select/CitySelect.vue';
 import { AreaType, IArea } from '@/models/area';
 
@@ -79,10 +79,10 @@ export default {
       return this.defaultAreas?.country ?? null;
     },
     stateDefaultArea(): IArea | null {
-      return this.selectedCountry ? null : this.defaultAreas?.state ?? null;
+      return this.defaultAreas?.state ?? null;
     },
     cityDefaultArea(): IArea | null {
-      return this.selectedState ? null : this.defaultAreas?.city ?? null;
+      return this.defaultAreas?.city ?? null;
     },
     showState(): boolean {
       return !!(
