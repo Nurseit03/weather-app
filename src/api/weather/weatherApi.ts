@@ -1,10 +1,8 @@
 export const getWeatherByLocationName = async (
-  name: string,
-  locale: string
-) => {
+  name: string) => {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=ru`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch weather data: ${response.statusText}`);
@@ -19,12 +17,10 @@ export const getWeatherByLocationName = async (
 
 export const getWeatherByCoordinates = async (
   latitude: number | null,
-  longitude: number | null,
-  locale: string
-) => {
+  longitude: number | null) => {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=${locale}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=ru`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch weather data: ${response.statusText}`);

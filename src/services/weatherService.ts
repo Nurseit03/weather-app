@@ -9,14 +9,12 @@ import { AreaType, IArea } from '@/models/area';
 export const useWeatherService = () => {
   const $q = useQuasar();
   const $store = useStore();
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
 
   const userCoordinates = reactive({
     latitude: null as number | null,
     longitude: null as number | null,
   });
-
-  const lastArea = computed(() => findLastItemInObject($store.getters.getSelectedAreas));
 
   const addNotification = async (message: string) => {
     const notification = {
@@ -78,7 +76,7 @@ export const useWeatherService = () => {
   const getWeatherByLocationName = async (name: string) => {
     await setWeatherIsFetching(true);
 
-    await WeatherApi.getWeatherByLocationName(name, locale.value.slice(0, 2))
+    await WeatherApi.getWeatherByLocationName(name)
       .then(async (data: IWeather) => {
         data?.name && (await setDefaultAreas(data?.name));
 
@@ -108,9 +106,7 @@ export const useWeatherService = () => {
 
     WeatherApi.getWeatherByCoordinates(
       latitude,
-      longitude,
-      locale.value.slice(0, 2)
-    )
+      longitude    )
       .then(async (data: IWeather) => {
         data?.name && (await setDefaultAreas(data?.name));
 
@@ -132,18 +128,6 @@ export const useWeatherService = () => {
       });
   };
 
-  const onLocaleChange = async () => {
-    if (lastArea.value) {
-      await setDefaultAreas(lastArea.value);
-      await getWeatherByLocationName(lastArea.value);
-    } else if (userCoordinates.latitude && userCoordinates.longitude) {
-      getWeatherByCoordinates(
-        userCoordinates.latitude,
-        userCoordinates.longitude
-      );
-    }
-  };
-
   const setDefaultAreas = async (name: string) => {
     const countriesData = $store.getters.getCountriesData;
     const parents = findLinkedAreasByName(name, countriesData);
@@ -152,13 +136,6 @@ export const useWeatherService = () => {
       await setSelectedAreas(parents);
     });
   };
-
-  function findLastItemInObject(object: Record<string, any>) {
-    const keys = Object.keys(object);
-    const lastKey = keys[keys.length - 1];
-    const lastObject = object[lastKey];
-    return lastObject;
-  }
 
   const findLinkedAreasByName = (
     searchedName: string,
@@ -211,8 +188,6 @@ export const useWeatherService = () => {
       return 'city';
     }
   };
-
-  watch(() => locale.value, onLocaleChange);
 
   return {
     onLocationSelected,
