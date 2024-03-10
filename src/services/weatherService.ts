@@ -11,7 +11,7 @@ export const useWeatherService = () => {
   const $store = useStore();
   const { locale, t } = useI18n();
 
-  const locationData = ref<IArea>({});
+  const locationName = ref<string | null>();
   const isFetching = ref(false);
 
   const userCoordinates = reactive({
@@ -38,7 +38,7 @@ export const useWeatherService = () => {
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
-    locationData.value = selectedArea;
+    locationName.value = selectedArea.name;
     selectedArea?.name && getWeatherByLocationName(selectedArea.name);
   };
 
@@ -127,9 +127,9 @@ export const useWeatherService = () => {
   };
 
   const onLocaleChange = async() => {
-    if (locationData.value?.name) {
-      await setDefaultAreas(locationData.value?.name);
-      await getWeatherByLocationName(locationData.value.name);
+    if (locationName.value) {
+      await setDefaultAreas(locationName.value);
+      await getWeatherByLocationName(locationName.value);
     } else if (userCoordinates.latitude && userCoordinates.longitude) {
       getWeatherByCoordinates(
         userCoordinates.latitude,
@@ -202,7 +202,7 @@ export const useWeatherService = () => {
   watch(() => locale.value, onLocaleChange);
 
   return {
-    locationData,
+    locationName,
     isFetching,
     onLocationSelected,
     getUserCoordinates,
