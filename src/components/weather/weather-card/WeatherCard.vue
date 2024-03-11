@@ -36,7 +36,6 @@ import useConvert from '@/composables/useConvert';
 import WeatherCardDetails from '@/components/weather/weather-card/WeatherCardDetails.vue';
 import WeatherTempUnit from '@/components/weather/weather-widgets/WeatherTempUnit.vue';
 import { IWeather, TemperatureUnit } from '@/models/weather';
-import { IArea } from '@/models/area';
 
 export default {
   name: 'WeatherCard',

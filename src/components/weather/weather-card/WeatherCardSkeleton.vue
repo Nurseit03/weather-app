@@ -24,11 +24,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps({
-  customClass: {
-    type: String,
-    default: '',
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'WeatherCardSkeleton',
+  props: {
+    customClass: {
+      type: String,
+      default: '',
+    },
   },
 });
 </script>

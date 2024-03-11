@@ -96,7 +96,6 @@ export default {
     },
     showCity(): boolean {
       return !!(
-        (this.selectedState?.areas && this.selectedState?.areas?.length > 0) ||
         (this.defaultAreas?.state?.areas &&
           this.defaultAreas?.state?.areas.length > 0) ||
         this.defaultAreas?.city
