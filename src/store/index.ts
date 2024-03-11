@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 import notificationsModule from './notifications';
 import preloaderModule from './preloader';
 import weatherModule from './weather';
-import { fetchCountries } from '@/api/areas/countries';
+import { fetchAndFilterCountries } from '@/services/areasService';
 
 const store = createStore({
   modules: {
@@ -11,10 +11,13 @@ const store = createStore({
     weather: weatherModule,
   },
   plugins: [
-    (store) => {
-      fetchCountries().then((data) => data.json()).then((countriesData) => {
-        store.commit('setCountriesData', countriesData);
-      });
+    async (store) => {
+      try {
+        const filteredCountries = await fetchAndFilterCountries();
+        store.commit('setCountriesData', filteredCountries);
+      } catch (error) {
+        console.error('Error in store initialization:', error);
+      }
     },
   ],
 });
