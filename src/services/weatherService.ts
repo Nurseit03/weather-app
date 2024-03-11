@@ -1,15 +1,18 @@
+import { reactive } from 'vue';
 import { useQuasar } from 'quasar';
-import { reactive, nextTick } from 'vue';
-import * as WeatherApi from '@/api/weather/weatherApi';
-import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { IWeather } from '@/models/weather';
-import { AreaType, IArea } from '@/models/area';
+import { IArea } from '@/models/area';
+import * as WeatherApi from '@/api/weather/weatherApi';
+import { useAreasService } from '@/services/areasService';
 
 export const useWeatherService = () => {
   const $q = useQuasar();
   const $store = useStore();
   const { t } = useI18n();
+
+  const { setDefaultAreas } = useAreasService();
 
   const userCoordinates = reactive({
     latitude: null as number | null,
@@ -28,10 +31,6 @@ export const useWeatherService = () => {
 
   const setWeatherData = async (data: IWeather) => {
     await $store.dispatch('setWeatherData', data);
-  };
-
-  const setSelectedAreas = async (areas: AreaType) => {
-    await $store.dispatch('setSelectedAreas', areas);
   };
 
   const setWeatherIsFetching = async (value: boolean) => {
@@ -104,9 +103,7 @@ export const useWeatherService = () => {
   ) => {
     await setWeatherIsFetching(true);
 
-    WeatherApi.getWeatherByCoordinates(
-      latitude,
-      longitude    )
+    await WeatherApi.getWeatherByCoordinates(latitude, longitude)
       .then(async (data: IWeather) => {
         data?.name && (await setDefaultAreas(data?.name));
 
@@ -126,67 +123,6 @@ export const useWeatherService = () => {
 
         await addNotification('Ошибка получения погоды по координатам');
       });
-  };
-
-  const setDefaultAreas = async (name: string) => {
-    const countriesData = $store.getters.getCountriesData;
-    const parents = findLinkedAreasByName(name, countriesData);
-
-    await nextTick(async () => {
-      await setSelectedAreas(parents);
-    });
-  };
-
-  const findLinkedAreasByName = (
-    searchedName: string,
-    node: IArea | IArea[],
-    parents: Record<string, IArea> = {}
-  ): Record<string, IArea> => {
-    if (Array.isArray(node)) {
-      for (const area of node) {
-        const result = findLinkedAreasByName(searchedName, area, {
-          ...parents,
-          [determineAreaType(area, node[0])]: { ...area },
-        });
-        if (Object.keys(result).length > 0) {
-          return result;
-        }
-      }
-      return {};
-    }
-
-    if (typeof node === 'object' && node != null && parents != null) {
-      if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
-        return {
-          ...parents,
-          [determineAreaType(node, parents?.country)]: { ...node },
-        };
-      }
-
-      if (node?.areas && node?.areas?.length > 0) {
-        for (const area of node.areas) {
-          const result = findLinkedAreasByName(searchedName, area, {
-            ...parents,
-            [determineAreaType(area, node)]: { ...area },
-          });
-          if (Object.keys(result).length > 0) {
-            return result;
-          }
-        }
-      }
-    }
-
-    return {};
-  };
-
-  const determineAreaType = (node: IArea, parentNode?: IArea) => {
-    if (!node?.parent_id || node?.parent_id == '1001') {
-      return 'country';
-    } else if (node?.parent_id != null && !parentNode?.parent_id) {
-      return 'state';
-    } else {
-      return 'city';
-    }
   };
 
   return {

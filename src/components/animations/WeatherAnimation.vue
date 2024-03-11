@@ -38,8 +38,8 @@ const weatherAnimations: Record<string, any> = {
 
   // ночные анимации
   '01n': WeatherClearNight, 
-  '02n': WeatherClouds, //
-  '03n': WeatherClouds, //
+  '02n': WeatherClouds, 
+  '03n': WeatherClouds,
   '04n': WeatherClouds,
   '09n': WeatherRainDay,
   '10n': WeatherRainNight, 
