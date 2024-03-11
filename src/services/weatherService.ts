@@ -38,7 +38,12 @@ export const useWeatherService = () => {
   };
 
   const onLocationSelected = (selectedArea: IArea) => {
-    if (selectedArea?.name && selectedArea.parent_id != null) {
+    if(selectedArea?.name && selectedArea.parent_id == null) {
+      setDefaultAreas(selectedArea.name);
+      return;
+    }
+    
+    if (selectedArea?.name) {
       getWeatherByLocationName(selectedArea.name);
     }
   };

@@ -6,10 +6,6 @@ import { fetchCountries } from '@/api/areas/countries';
 export const useAreasService = () => {
   const $store = useStore();
 
-  const setSelectedAreas = async (areas: AreaType) => {
-    await $store.dispatch('setSelectedAreas', areas);
-  };
-
   const setDefaultAreas = async (name: string) => {
     const countriesData = $store.getters.getCountriesData;
     const parents = findLinkedAreasByName(name, countriesData);
@@ -17,6 +13,10 @@ export const useAreasService = () => {
     await nextTick(async () => {
       await setSelectedAreas(parents);
     });
+  };
+  
+  const setSelectedAreas = async (areas: AreaType) => {
+    await $store.dispatch('setSelectedAreas', areas);
   };
 
   const findLinkedAreasByName = (
