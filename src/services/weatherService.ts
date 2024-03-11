@@ -180,7 +180,7 @@ export const useWeatherService = () => {
   };
 
   const determineAreaType = (node: IArea, parentNode?: IArea) => {
-    if (!node?.parent_id) {
+    if (!node?.parent_id || node?.parent_id == '1001') {
       return 'country';
     } else if (node?.parent_id != null && !parentNode?.parent_id) {
       return 'state';
