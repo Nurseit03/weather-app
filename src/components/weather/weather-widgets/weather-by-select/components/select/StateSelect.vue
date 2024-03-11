@@ -30,7 +30,10 @@ import { IArea } from '@/models/area';
 export default {
   name: 'StateSelect',
   props: {
-    areas: Array,
+    areas: {
+      type: Array as () => IArea[] | null,
+      default: null,
+    },
     onSelect: Function,
     defaultArea: {
       type: Object as () => IArea | null,
@@ -49,7 +52,7 @@ export default {
         const needle = val.toLocaleLowerCase();
         filteredStates.value =
           props?.areas?.filter(
-            (state: any) =>
+            (state: IArea | null) =>
               state?.name && state.name.toLocaleLowerCase().indexOf(needle) > -1
           ) || [];
       });
