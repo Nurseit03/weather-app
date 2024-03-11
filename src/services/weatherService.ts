@@ -1,5 +1,5 @@
 import { useQuasar } from 'quasar';
-import { ref, reactive, watch, toRefs, nextTick, computed } from 'vue';
+import { reactive, nextTick } from 'vue';
 import * as WeatherApi from '@/api/weather/weatherApi';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
@@ -63,7 +63,7 @@ export const useWeatherService = () => {
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        addNotification(`Ошибка получения координат пользователя`);
+        addNotification('Ошибка получения координат пользователя');
       }
     );
   };
@@ -88,7 +88,7 @@ export const useWeatherService = () => {
           await setWeatherIsFetching(false);
         }, 1200);
       })
-      .catch(async (error: any) => {
+      .catch(async (error: Error | undefined) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
@@ -118,13 +118,13 @@ export const useWeatherService = () => {
           await setWeatherIsFetching(false);
         }, 1000);
       })
-      .catch(async (error: any) => {
+      .catch(async (error: Error | undefined) => {
         $q.dialog({
           title: t('failed'),
           message: t(`${error?.message ?? 'Unknown error'}`),
         });
 
-        await addNotification(`Ошибка получения погоды по координатам`);
+        await addNotification('Ошибка получения погоды по координатам');
       });
   };
 
@@ -155,7 +155,7 @@ export const useWeatherService = () => {
       return {};
     }
 
-    if (typeof node === 'object' && node !== null && parents != null) {
+    if (typeof node === 'object' && node != null && parents != null) {
       if (node?.name?.toLowerCase() === searchedName?.toLowerCase()) {
         return {
           ...parents,

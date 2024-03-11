@@ -26,7 +26,6 @@
 <script lang="ts">
 import { ref, watch } from 'vue';
 import { IArea } from '@/models/area';
-import { Ref } from 'vue';
 
 export default {
   name: 'StateSelect',

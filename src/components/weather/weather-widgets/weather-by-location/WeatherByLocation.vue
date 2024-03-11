@@ -32,7 +32,7 @@ export default defineComponent({
   name: 'WeatherByLocation',
   props: {
     getUserCoordinates: {
-      type: Function as () => any,
+      type: Function,
       required: true,
     },
   },

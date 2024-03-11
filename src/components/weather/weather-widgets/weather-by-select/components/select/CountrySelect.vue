@@ -51,7 +51,7 @@ export default {
       update(() => {
         const needle = val.toLocaleLowerCase();
         filteredCountries.value = countriesFromApi.value.filter(
-          (country: any) =>
+          (country: IArea | null) =>
             country?.name &&
             country.name.toLocaleLowerCase().indexOf(needle) > -1
         );
