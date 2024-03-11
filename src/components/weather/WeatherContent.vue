@@ -47,10 +47,11 @@ const { onLocationSelected, getUserCoordinates } = useWeatherService();
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 50px;
   gap: 40px;
 }
 
 .weather-animation-container {
-  position: relative;
+  margin-bottom: -20px;
 }
 </style>
