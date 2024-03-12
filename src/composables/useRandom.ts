@@ -1,18 +1,20 @@
 export default function useRandom() {
-  const randomColor = (unsetFlag?: boolean) => {
+  const randomColor = (colors?: string[], unsetFlag?: boolean): string => {
     if (unsetFlag) {
       return 'unset';
     }
 
-    const colors = [
+    const defaultColors = [
       'cornflowerblue',
       'white',
+      'cornflowerblue',
       'lightskyblue',
-      'mediumturquoise',
     ];
 
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
+    const colorArray = colors || defaultColors;
+    const randomIndex = Math.floor(Math.random() * colorArray.length);
+
+    return colorArray[randomIndex];
   };
 
   return {
