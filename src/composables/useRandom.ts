@@ -6,9 +6,6 @@ export default function useRandom() {
 
     const colors = [
       'cornflowerblue',
-      'skyblue',
-      'white',
-      'lightseagreen',
       'white',
       'lightskyblue',
       'mediumturquoise',
