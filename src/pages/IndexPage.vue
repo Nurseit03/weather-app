@@ -28,7 +28,7 @@ export default defineComponent({
   },
   computed: {
     getBackgroundColor() {
-      return  this.randomColor(this.dark.isActive);
+      return  this.randomColor(undefined, this.dark.isActive);
     },
   },
 });
