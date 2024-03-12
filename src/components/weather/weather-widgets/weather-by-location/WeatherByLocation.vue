@@ -49,7 +49,7 @@ export default defineComponent({
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
   }
   100% {
-    box-shadow: 0 0 0 18px rgba(91, 164, 224, 0.281);
+    box-shadow: 0 0 0 11px rgba(91, 164, 224, 0.281);
   }
 }
 </style>
