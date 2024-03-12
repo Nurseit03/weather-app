@@ -1,16 +1,36 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page
+    id="indexPage"
+    class="row items-center justify-evenly"
+    :style="{ backgroundColor: getBackgroundColor  }"
+  >
     <weather-content></weather-content>
   </q-page>
 </template>
 
 <script lang="ts">
 import WeatherContent from '@/components/weather/WeatherContent.vue';
+import useRandom from '@/composables/useRandom';
+import { useQuasar } from 'quasar';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
   components: { WeatherContent },
+  setup() {
+    const { dark } = useQuasar();
+    const { randomColor } = useRandom();
+
+    return {
+      dark,
+      randomColor,
+    };
+  },
+  computed: {
+    getBackgroundColor() {
+      return  this.randomColor(this.dark.isActive);
+    },
+  },
 });
 </script>
 

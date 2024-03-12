@@ -87,6 +87,8 @@ export default {
 <style>
 .my-card {
   width: 90vw;
+  background-color: inherit;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   @media (min-width: 768px) {
     width: 420px;
   }

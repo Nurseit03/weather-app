@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md content">
-    <div v-if="showWeatherAnimation" class="weather-animation-container">
+  <div class="q-pa-md column center content">
+    <div v-if="showWeatherAnimation" class="weather-animation-container fade-in">
       <WeatherAnimation :weatherCondition="weatherCondition" />
     </div>
     <WeatherBySelect
@@ -43,12 +43,8 @@ const { onLocationSelected, getUserCoordinates } = useWeatherService();
 
 <style scoped>
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding-bottom: 50px;
-  gap: 40px;
+  gap: 35px;
 }
 
 .weather-animation-container {
